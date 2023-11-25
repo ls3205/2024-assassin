@@ -8,6 +8,7 @@ declare module "next-auth/jwt" {
         id: UserId
         role: "ADMIN" | "PLAYER"
         status: "ALIVE" | "DEAD"
+        image?: string | null
     }
 }
 
@@ -17,7 +18,7 @@ declare module "next-auth" {
             id: UserId
             role: "ADMIN" | "PLAYER"
             status: "ALIVE" | "DEAD"
-            picture?: string | null
+            image?: string | null
         }
     }
 }

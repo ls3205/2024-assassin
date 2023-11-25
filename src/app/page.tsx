@@ -1,11 +1,9 @@
-import { getAuthSession } from "@/lib/auth";
+import Navbar from "@/components/Navbar";
 
-export default async function Home() {
-	const session = await getAuthSession()
-
-	return (
-		<main className="flex min-h-screen flex-col items-center justify-center ">
-			
-		</main>
-	);
+export default function Home() {
+    return (
+        <main className="flex min-h-screen flex-col items-center">
+            <Navbar />
+        </main>
+    );
 }
