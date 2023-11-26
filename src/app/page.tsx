@@ -1,3 +1,4 @@
+import KillFeed from "@/components/KillFeed";
 import Navbar from "@/components/Navbar";
 import PlayerList from "@/components/PlayerList";
 
@@ -15,7 +16,10 @@ export default function Home() {
                     <div className="h-full w-full rounded-lg bg-primary"></div>
                 </div>
             </div>
-            <PlayerList />
+            <div className="flex w-[70%] flex-row justify-center">
+                <PlayerList />
+                <KillFeed />
+            </div>
         </main>
     );
 }

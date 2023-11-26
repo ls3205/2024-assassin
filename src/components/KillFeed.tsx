@@ -5,15 +5,16 @@ import React from "react";
 import axios from "axios";
 import { AlertCircle, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import KillCard from "./KillCard";
 
-interface PlayerListProps {}
+interface KillFeedProps {}
 
-const PlayerList: React.FC<PlayerListProps> = ({}) => {
+const KillFeed: React.FC<KillFeedProps> = ({}) => {
     const { isLoading, error, data } = useQuery({
-        queryKey: ["Players"],
+        queryKey: ["Kills"],
         queryFn: async () => {
-            const { data } = await axios.get("/api/players");
-            return data as Player[];
+            const { data } = await axios.get("/api/kills");
+            return data as Kill[];
         },
     });
 
@@ -37,25 +38,18 @@ const PlayerList: React.FC<PlayerListProps> = ({}) => {
     }
 
     return (
-        <div className="m-4 w-1/2 rounded-lg bg-secondary">
-            {data.length === 0 ? (
+        <div className="m-4 h-min w-1/2 rounded-lg bg-secondary p-4">
+            {data?.length === 0 ? (
                 <div className="flex h-48 flex-col items-center justify-center">
                     <AlertCircle className="text-destructive" />
                     <h1 className="text-destructive">没有heads</h1>
                 </div>
             ) : (
                 <ul className="flex flex-col items-center">
-                    {data.map((player, index) => {
+                    {data.map((kill) => {
                         return (
-                            <li
-                                className={cn(
-                                    "p-2 text-lg",
-                                    player.status === "ALIVE"
-                                        ? "text-green-500"
-                                        : "text-destructive line-through",
-                                )}
-                            >
-                                {player.name}
+                            <li>
+                                <KillCard kill={kill} />
                             </li>
                         );
                     })}
@@ -65,4 +59,4 @@ const PlayerList: React.FC<PlayerListProps> = ({}) => {
     );
 };
 
-export default PlayerList;
+export default KillFeed;
