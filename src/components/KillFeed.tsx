@@ -38,7 +38,7 @@ const KillFeed: React.FC<KillFeedProps> = ({}) => {
     }
 
     return (
-        <div className="m-4 h-min w-1/2 rounded-lg bg-secondary p-4">
+        <div className="m-4 h-min w-full rounded-lg bg-secondary p-4 lg:w-1/2">
             {data?.length === 0 ? (
                 <div className="flex h-48 flex-col items-center justify-center">
                     <AlertCircle className="text-destructive" />

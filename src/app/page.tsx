@@ -16,7 +16,7 @@ export default function Home() {
                     <div className="h-full w-full rounded-lg bg-primary"></div>
                 </div>
             </div>
-            <div className="flex w-[70%] flex-row justify-center">
+            <div className="flex w-[70%] flex-col items-center justify-center lg:flex-row lg:items-start">
                 <PlayerList />
                 <KillFeed />
             </div>
