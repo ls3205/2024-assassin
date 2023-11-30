@@ -6,6 +6,8 @@ import axios from "axios";
 import { AlertCircle, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Separator } from "./ui/Separator";
+import Link from "next/link";
+import { buttonVariants } from "./ui/Button";
 
 interface PlayerListProps {}
 
@@ -39,6 +41,17 @@ const PlayerList: React.FC<PlayerListProps> = ({}) => {
 
     return (
         <div className="m-4 w-full rounded-lg bg-secondary lg:w-1/2">
+            <h1 className="my-2 w-full text-center text-2xl font-semibold">
+                <Link
+                    className={cn(
+                        buttonVariants({ variant: "link" }),
+                        "my-2 w-full text-center text-2xl font-semibold text-foreground",
+                    )}
+                    href={"/kills"}
+                >
+                    Players
+                </Link>
+            </h1>
             {data.length === 0 ? (
                 <div className="flex h-48 flex-col items-center justify-center">
                     <AlertCircle className="text-destructive" />
@@ -50,7 +63,7 @@ const PlayerList: React.FC<PlayerListProps> = ({}) => {
                         return (
                             <li
                                 className={cn(
-                                    "flex flex-col basis-[100%] items-center justify-center p-2 text-center text-lg sm:basis-1/2 md:basis-1/3 lg:basis-1/2",
+                                    "flex basis-[100%] flex-col items-center justify-center p-2 text-center text-lg sm:basis-1/2 md:basis-1/3 lg:basis-1/2",
                                     player.status === "ALIVE"
                                         ? "text-green-500"
                                         : "text-destructive line-through",
