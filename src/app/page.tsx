@@ -1,6 +1,8 @@
 import KillFeed from "@/components/KillFeed";
 import Navbar from "@/components/Navbar";
 import PlayerList from "@/components/PlayerList";
+import { buttonVariants } from "@/components/ui/Button";
+import { cn } from "@/lib/utils";
 
 export default function Home() {
     return (
@@ -17,7 +19,12 @@ export default function Home() {
                 </div>
             </div>
             <div className="flex w-[70%] flex-col items-center justify-center lg:flex-row lg:items-start">
-                <PlayerList />
+                <div className="m-4 w-full rounded-lg bg-secondary lg:w-1/2">
+                    <h1 className="my-2 w-full text-center text-2xl font-semibold">
+                        Players
+                    </h1>
+                    <PlayerList type="LINK" />
+                </div>
                 <KillFeed />
             </div>
         </main>

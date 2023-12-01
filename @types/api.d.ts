@@ -1,31 +1,34 @@
 interface Player {
-    name: String
+    name: string
+    image: string
     status: "ALIVE" | "DEAD"
+    targetID: string | null
+    id: string
 }
 
 interface Kill {
-    id: String
+    id: string
 
     User: User
-    userId: String
+    userId: string
 
-    killerID: String
-    killedID: String
+    killerID: string
+    killedID: string
 
     time: Date
 }
 
 interface User {
-    id: String
-    name?: String
-    email: String
-    password: String
-    image?: String
+    id: string
+    name?: string
+    email: string
+    password: string
+    image?: string
 
     role: "ADMIN" | "PLAYER"
     status: "ALIVE" | "DEAD"
 
-    targetID: String
+    targetID: string
 
     accounts: Account[]
     sessions: Session[]
