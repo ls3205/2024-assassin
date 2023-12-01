@@ -32,7 +32,7 @@ const NavbarLinks: React.FC<NavbarLinksProps> = ({ session }) => {
                 </Link>
             </Button>
             <Button variant={"ghost"}>
-                <Link className={cn(pathname === "/admin" ? "text-primary" : "text-foreground")} href={"/kills"}>
+                <Link className={cn(pathname === "/kills" ? "text-primary" : "text-foreground")} href={"/kills"}>
                     Kills
                 </Link>
             </Button>
