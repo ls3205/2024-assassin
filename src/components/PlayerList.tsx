@@ -66,7 +66,15 @@ const PlayerList: React.FC<PlayerListProps> = ({
                                 )}
                             >
                                 {type === "LINK" ? (
-                                    <Link href={`/players/${player.id}`}>
+                                    <Link
+                                        className={cn(
+                                            buttonVariants({ variant: "link" }),
+                                            player.status === "ALIVE"
+                                                ? "text-green-500"
+                                                : "text-destructive line-through",
+                                        )}
+                                        href={`/players/${player.id}`}
+                                    >
                                         {player.name}
                                     </Link>
                                 ) : (

@@ -13,7 +13,7 @@ const page: React.FC<pageProps> = ({}) => {
                     <h1 className="my-2 w-full text-center text-2xl font-semibold">
                         Players
                     </h1>
-                    <PlayerList className="lg:basis-1/4" />
+                    <PlayerList className="lg:basis-1/4" type="LINK" />
                 </div>
             </div>
         </main>
