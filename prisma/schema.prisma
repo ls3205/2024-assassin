@@ -60,6 +60,7 @@ model User {
     status Status   @default(ALIVE)
 
     targetID String?
+    killedBy String?
 
     accounts Account[]
     sessions Session[]
