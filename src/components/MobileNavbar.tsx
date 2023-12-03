@@ -8,6 +8,7 @@ import { Button } from "./ui/Button";
 import Link from "next/link";
 import ThemeDropdown from "./ThemeDropdown";
 import { Session } from "next-auth";
+import NavbarLinks from "./NavbarLinks";
 
 interface MobileNavbarProps {
     session: Session | null;
@@ -22,19 +23,7 @@ const MobileNavbar: React.FC<MobileNavbarProps> = ({ session }) => {
             </SheetTrigger>
             <SheetContent side={"left"} className="flex flex-col">
                 <div className="relative mb-auto flex flex-col items-center space-y-8">
-                    <Button variant={"secondary"} size={"lg"}>
-                        <Link href={"/"}>Home</Link>
-                    </Button>
-                    {session?.user &&
-                        (session.user.role === "ADMIN" ? (
-                            <Button variant={"secondary"} size={"lg"}>
-                                <Link href={"/admin"}>Admin Dashboard</Link>
-                            </Button>
-                        ) : (
-                            <Button variant={"secondary"} size={"lg"}>
-                                <Link href={"/player"}>Player Dashboard</Link>
-                            </Button>
-                        ))}
+                    <NavbarLinks session={session} />
                 </div>
                 <div className="relative mt-auto flex flex-row items-center justify-center space-x-8">
                     {session?.user ? (
