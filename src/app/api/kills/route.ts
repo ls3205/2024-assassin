@@ -12,16 +12,6 @@ export async function GET(req: NextRequest) {
             return NextResponse.json(kills, { status: 200 })
         }
 
-        const session = await getAuthSession()
-
-        if (!session) {
-            return NextResponse.json(`Unauthorized`, { status: 403 })
-        }
-
-        if ((reqPlayerID !== session.user.id) && (session.user.role !== "ADMIN")) {
-            return NextResponse.json(`Unauthorized`, { status: 403 })
-        }
-
         const kills = await db.kill.findMany({
             where: {
                 userId: reqPlayerID

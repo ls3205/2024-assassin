@@ -33,10 +33,6 @@ export async function GET(req: NextRequest) {
             return NextResponse.json(players, { status: 200 })
         }
 
-        if (!session) {
-            return NextResponse.json(`Unauthorized`, { status: 403 })
-        }
-
         const dbPlayer = await db.user.findFirst({
             where: {
                 id: reqPlayerID,
