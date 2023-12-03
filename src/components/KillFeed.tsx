@@ -40,16 +40,7 @@ const KillFeed: React.FC<KillFeedProps> = ({}) => {
     }
 
     return (
-        <div className="m-4 h-min w-full rounded-lg bg-secondary p-4 lg:w-1/2">
-            <Link
-                className={cn(
-                    buttonVariants({ variant: "link" }),
-                    "my-2 w-full text-center text-2xl font-semibold text-foreground",
-                )}
-                href={"/kills"}
-            >
-                Kills
-            </Link>
+        <>
             {data?.length === 0 ? (
                 <div className="flex h-48 flex-col items-center justify-center">
                     <AlertCircle className="text-destructive" />
@@ -66,7 +57,7 @@ const KillFeed: React.FC<KillFeedProps> = ({}) => {
                     })}
                 </ul>
             )}
-        </div>
+        </>
     );
 };
 
