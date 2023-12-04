@@ -116,6 +116,8 @@ const TargetPairingsForm: React.FC<TargetPairingsFormProps> = ({}) => {
     };
 
     const checkDuplicate = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const duplicateRows = [];
+
         const targetPairingID =
             e.target.parentElement?.previousElementSibling
                 ?.previousElementSibling?.previousElementSibling?.id;
@@ -133,6 +135,28 @@ const TargetPairingsForm: React.FC<TargetPairingsFormProps> = ({}) => {
         ) as HTMLCollectionOf<HTMLSelectElement>;
 
         const selectorsArray = Array.from(selectors);
+
+        selectorsArray.map((selector) => {
+            const idToCheck = selector.value;
+
+            selectorsArray.map((subSelector) => {
+                if (
+                    subSelector.value === idToCheck &&
+                    selector !== subSelector
+                ) {
+                    const row1 =
+                        selector.parentElement?.previousElementSibling
+                            ?.previousElementSibling?.previousElementSibling
+                            ?.id;
+                    
+                    const row2 = 
+                }
+            });
+        });
+
+        const duplicateDFS = () => {
+            
+        }
 
         const index = selectorsArray.indexOf(
             selectorsArray.find(
