@@ -103,11 +103,11 @@ const TargetPairingsForm: React.FC<TargetPairingsFormProps> = ({}) => {
         ) as HTMLCollectionOf<HTMLSelectElement>;
 
         Array.from(selectors).map((selector) => {
-            var playerID = getRandomPlayer()!.id;
+            var playerID: string;
 
-            if (playerID in picked) {
+            do {
                 playerID = getRandomPlayer()!.id;
-            }
+            } while (picked.includes(playerID));
 
             picked.push(playerID);
 
@@ -149,6 +149,36 @@ const TargetPairingsForm: React.FC<TargetPairingsFormProps> = ({}) => {
         for (var duplicate of duplicates) {
             duplicate.parentElement?.classList.add("bg-primary");
         }
+    };
+
+    const checkSelfPick = () => {
+        const selfPicks: HTMLSelectElement[] = [];
+
+        const selectors = Array.from(
+            document.getElementsByClassName(
+                "targetSelector",
+            ) as HTMLCollectionOf<HTMLSelectElement>,
+        );
+
+        selectors.map((selector) => {
+            selector.parentElement?.classList.remove("bg-blue-400");
+
+            if (
+                selector.value ===
+                selector.parentElement?.previousElementSibling?.id
+            ) {
+                selfPicks.push(selector);
+            }
+        });
+
+        for (var selfPick of selfPicks) {
+            selfPick.parentElement?.classList.add("bg-blue-400");
+        }
+    };
+
+    const validate = () => {
+        checkDuplicate();
+        checkSelfPick();
     };
 
     const handleSave = () => {
@@ -262,7 +292,7 @@ const TargetPairingsForm: React.FC<TargetPairingsFormProps> = ({}) => {
                                     id={
                                         pairing.killedID ? pairing.killedID : ""
                                     }
-                                    onChange={() => checkDuplicate()}
+                                    onChange={() => validate()}
                                 >
                                     <option id="" value="" />
                                     {data?.players.map((player) => {
@@ -285,7 +315,7 @@ const TargetPairingsForm: React.FC<TargetPairingsFormProps> = ({}) => {
                 <Button
                     onClick={() => {
                         randomize();
-                        checkDuplicate();
+                        validate();
                     }}
                     className="bg-blue-400"
                 >
@@ -295,7 +325,7 @@ const TargetPairingsForm: React.FC<TargetPairingsFormProps> = ({}) => {
                     variant={"destructive"}
                     onClick={() => {
                         setDefaults();
-                        checkDuplicate();
+                        validate();
                     }}
                 >
                     Defaults
@@ -304,7 +334,7 @@ const TargetPairingsForm: React.FC<TargetPairingsFormProps> = ({}) => {
                     variant={"destructive"}
                     onClick={() => {
                         clearOpts();
-                        checkDuplicate();
+                        validate();
                     }}
                 >
                     Clear
@@ -313,7 +343,7 @@ const TargetPairingsForm: React.FC<TargetPairingsFormProps> = ({}) => {
                     variant={"destructive"}
                     onClick={() => {
                         revertPairings();
-                        checkDuplicate();
+                        validate();
                     }}
                 >
                     Revert
@@ -322,7 +352,7 @@ const TargetPairingsForm: React.FC<TargetPairingsFormProps> = ({}) => {
                     variant={"secondary"}
                     onClick={() => {
                         refetch();
-                        checkDuplicate();
+                        validate();
                     }}
                 >
                     Refresh
