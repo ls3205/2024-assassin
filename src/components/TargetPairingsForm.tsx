@@ -115,72 +115,40 @@ const TargetPairingsForm: React.FC<TargetPairingsFormProps> = ({}) => {
         });
     };
 
-    const checkDuplicate = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const duplicateRows = [];
+    const checkDuplicate = () => {
+        const duplicates: HTMLSelectElement[] = [];
 
-        const targetPairingID =
-            e.target.parentElement?.previousElementSibling
-                ?.previousElementSibling?.previousElementSibling?.id;
+        const selectors = Array.from(
+            document.getElementsByClassName(
+                "targetSelector",
+            ) as HTMLCollectionOf<HTMLSelectElement>,
+        );
 
-        // setCheckDuplicatePairs(
-        //     checkDuplicatePairs.map((pair) => {
-        //         return pair.id === targetPairingID
-        //             ? { ...pair, TargetID: e.target.value }
-        //             : pair;
-        //     }),
-        // );
-
-        const selectors = document.getElementsByClassName(
-            "targetSelector",
-        ) as HTMLCollectionOf<HTMLSelectElement>;
-
-        const selectorsArray = Array.from(selectors);
-
-        const dfs = (reqId: string) => {
-            
-        }
-
-        selectorsArray.map((selector) => {
-            dfs(selector.value)
+        selectors.sort((a, b) => {
+            return a.value.localeCompare(b.value);
         });
 
-        const duplicateDFS = () => {
-            const pairs = [];
+        for (var i = 0; i < selectors.length - 1; i++) {
+            const sel = selectors[i];
+            const selp1 = selectors[i + 1];
 
-            const selectors = Array.from(
-                document.getElementsByClassName(
-                    "targetSelector",
-                ) as HTMLCollectionOf<HTMLSelectElement>,
-            );
+            sel?.parentElement?.classList.remove("bg-primary");
+            selp1?.parentElement?.classList.remove("bg-primary");
 
+            if (sel!.value !== "") {
+                if (sel!.value === selp1!.value) {
+                    if (!duplicates.includes(sel!)) {
+                        duplicates.push(sel!);
+                    }
 
-        };
+                    duplicates.push(selp1!);
+                }
+            }
+        }
 
-        const index = selectorsArray.indexOf(
-            selectorsArray.find(
-                (selector) => selector.value === e.target.value,
-            )!,
-        );
-        const newIndex = selectorsArray.indexOf(
-            selectorsArray.find(
-                (selector) => selector.value === e.target.value,
-            )!,
-            index,
-        )!;
-
-        console.log(targetPairingID);
-        console.log(index);
-        console.log(newIndex);
-
-        const duplicate = selectorsArray.find(
-            (selector) =>
-                selectorsArray.indexOf(e.target) !==
-                selectorsArray.lastIndexOf(
-                    selectorsArray.find(
-                        (selector) => selector.id === targetPairingID,
-                    )!,
-                ),
-        );
+        for (var duplicate of duplicates) {
+            duplicate.parentElement?.classList.add("bg-primary");
+        }
     };
 
     const handleSave = () => {
@@ -294,7 +262,7 @@ const TargetPairingsForm: React.FC<TargetPairingsFormProps> = ({}) => {
                                     id={
                                         pairing.killedID ? pairing.killedID : ""
                                     }
-                                    onChange={(e) => checkDuplicate(e)}
+                                    onChange={() => checkDuplicate()}
                                 >
                                     <option id="" value="" />
                                     {data?.players.map((player) => {
@@ -314,22 +282,49 @@ const TargetPairingsForm: React.FC<TargetPairingsFormProps> = ({}) => {
                 })}
             </table>
             <div className="flex w-full flex-row items-center justify-end space-x-4">
-                <Button onClick={() => randomize()} className="bg-blue-400">
+                <Button
+                    onClick={() => {
+                        randomize();
+                        checkDuplicate();
+                    }}
+                    className="bg-blue-400"
+                >
                     Randomize
                 </Button>
-                <Button variant={"destructive"} onClick={() => setDefaults()}>
+                <Button
+                    variant={"destructive"}
+                    onClick={() => {
+                        setDefaults();
+                        checkDuplicate();
+                    }}
+                >
                     Defaults
                 </Button>
-                <Button variant={"destructive"} onClick={() => clearOpts()}>
+                <Button
+                    variant={"destructive"}
+                    onClick={() => {
+                        clearOpts();
+                        checkDuplicate();
+                    }}
+                >
                     Clear
                 </Button>
                 <Button
                     variant={"destructive"}
-                    onClick={() => revertPairings()}
+                    onClick={() => {
+                        revertPairings();
+                        checkDuplicate();
+                    }}
                 >
                     Revert
                 </Button>
-                <Button variant={"secondary"} onClick={() => refetch()}>
+                <Button
+                    variant={"secondary"}
+                    onClick={() => {
+                        refetch();
+                        checkDuplicate();
+                    }}
+                >
                     Refresh
                 </Button>
                 <Button onClick={() => handleSave()} className="bg-blue-400">
