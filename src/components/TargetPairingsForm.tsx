@@ -13,13 +13,14 @@ interface CheckDuplicateState {
     id: string;
     UserID: string;
     TargetID: string;
+    duplicate: boolean;
 }
 
 const TargetPairingsForm: React.FC<TargetPairingsFormProps> = ({}) => {
     const [pairings, setPairings] = useState<Pairing[]>();
     const [checkDuplicatePairs, setCheckDuplicatePairs] = useState<
         CheckDuplicateState[]
-    >([{ id: "", UserID: "", TargetID: "" }]);
+    >([]);
 
     const revertPairings = () => {
         const selectors = document.getElementsByClassName(
@@ -119,11 +120,45 @@ const TargetPairingsForm: React.FC<TargetPairingsFormProps> = ({}) => {
             e.target.parentElement?.previousElementSibling
                 ?.previousElementSibling?.previousElementSibling?.id;
 
+        // setCheckDuplicatePairs(
+        //     checkDuplicatePairs.map((pair) => {
+        //         return pair.id === targetPairingID
+        //             ? { ...pair, TargetID: e.target.value }
+        //             : pair;
+        //     }),
+        // );
+
         const selectors = document.getElementsByClassName(
             "targetSelector",
         ) as HTMLCollectionOf<HTMLSelectElement>;
 
-        Array.from(selectors).map((selector) => {});
+        const selectorsArray = Array.from(selectors);
+
+        const index = selectorsArray.indexOf(
+            selectorsArray.find(
+                (selector) => selector.value === e.target.value,
+            )!,
+        );
+        const newIndex = selectorsArray.indexOf(
+            selectorsArray.find(
+                (selector) => selector.value === e.target.value,
+            )!,
+            index,
+        )!;
+
+        console.log(targetPairingID);
+        console.log(index);
+        console.log(newIndex);
+
+        const duplicate = selectorsArray.find(
+            (selector) =>
+                selectorsArray.indexOf(e.target) !==
+                selectorsArray.lastIndexOf(
+                    selectorsArray.find(
+                        (selector) => selector.id === targetPairingID,
+                    )!,
+                ),
+        );
     };
 
     const handleSave = () => {
@@ -152,9 +187,18 @@ const TargetPairingsForm: React.FC<TargetPairingsFormProps> = ({}) => {
 
             setPairings(pairings);
 
-            for (var pairing in data.pairings) {
-                setCheckDuplicatePairs([...checkDuplicatePairs, {id: pairing.}]);
+            const checkPairings: CheckDuplicateState[] = [];
+
+            for (var pairing of data.pairings) {
+                checkPairings.push({
+                    id: pairing.id,
+                    UserID: pairing.killerID,
+                    TargetID: pairing.killedID || "",
+                    duplicate: false,
+                });
             }
+
+            setCheckDuplicatePairs(checkPairings);
 
             return data;
         },
