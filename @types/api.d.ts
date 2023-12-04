@@ -39,6 +39,6 @@ interface User {
 interface Pairing {
     id: string;
     killerID: string;
-    killedID: string;
+    killedID: string | null;
     targetListId: string | null;
 }

@@ -144,8 +144,8 @@ const TargetPairingsForm: React.FC<TargetPairingsFormProps> = ({}) => {
                             <td className="px-5 py-2">
                                 <select
                                     className="targetSelector text-black"
-                                    defaultValue={pairing.killedID}
-                                    id={pairing.killedID}
+                                    defaultValue={pairing.killedID ? pairing.killedID : ""}
+                                    id={pairing.killedID ? pairing.killedID : ""}
                                 >
                                     {data?.players.map((player) => {
                                         return (

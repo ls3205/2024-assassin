@@ -30,6 +30,10 @@ export async function GET(req: NextRequest) {
                 })
             }
 
+            players.sort((a, b) => {
+                return a.name!.localeCompare(b.name!);
+            })
+
             return NextResponse.json(players, { status: 200 })
         }
 

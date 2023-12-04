@@ -34,6 +34,20 @@ export async function GET(req: NextRequest) {
             }
         })
 
+        const players = await db.user.findMany({
+            where: {
+                role: "PLAYER",
+                status: "ALIVE"
+            }
+        })
+
+        pairings.sort((a, b) => {
+            const aUser = players.find((player) => player.id === a.killerID)
+            const bUser = players.find((player) => player.id === b.killerID)
+
+            return aUser!.name!.localeCompare(bUser!.name!)
+        })
+
         return NextResponse.json(pairings, { status: 200 })
     } catch (err) {
         return NextResponse.json(`An Error Occurred: ${err}`, { status: 500 })
@@ -50,7 +64,7 @@ export async function PUT(req: NextRequest) {
 
         const body = await req.json()
 
-        const pairings = PairingsUpdateValidator.parse(body)
+        const pairings = PairingsUpdateValidator.parse(body);
 
         pairings.map(async (pairing) => {
             const thing = await db.targetPairing.update({
@@ -60,12 +74,12 @@ export async function PUT(req: NextRequest) {
                     killerID: pairing.killerID
                 },
                 data: {
-                    killedID: pairing.killedID
+                    killedID: pairing.killedID || undefined
                 }
-            })
+            });
 
-            return thing
-        })
+            return thing;
+        });
 
         return NextResponse.json(`Targets Updated Successfully`, { status: 200 })
     } catch (err) {
