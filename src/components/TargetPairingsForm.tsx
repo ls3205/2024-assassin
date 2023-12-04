@@ -10,7 +10,6 @@ import { UpdatePairingsPayload } from "@/lib/validators/pairings";
 interface TargetPairingsFormProps {}
 
 const TargetPairingsForm: React.FC<TargetPairingsFormProps> = ({}) => {
-    const [pairingsBackup, setPairingsBackup] = useState<Pairing[]>();
     const [pairings, setPairings] = useState<Pairing[]>();
 
     const revertPairings = () => {
@@ -39,14 +38,19 @@ const TargetPairingsForm: React.FC<TargetPairingsFormProps> = ({}) => {
 
             pairing.id = row.getElementsByClassName("pairingID")[0]!.id;
             pairing.killerID = row.getElementsByClassName("userID")[0]!.id;
-            pairing.killedID = (
-                row.getElementsByClassName(
-                    "targetSelector",
-                )[0]! as HTMLSelectElement
-            ).value;
+            pairing.killedID =
+                (
+                    row.getElementsByClassName(
+                        "targetSelector",
+                    )[0]! as HTMLSelectElement
+                ).value === ""
+                    ? null
+                    : (
+                          row.getElementsByClassName(
+                              "targetSelector",
+                          )[0]! as HTMLSelectElement
+                      ).value;
             pairing.targetListId = row.getElementsByClassName("listID")[0]!.id;
-
-            console.log(pairing);
 
             pairings.push(pairing);
         });
@@ -54,10 +58,30 @@ const TargetPairingsForm: React.FC<TargetPairingsFormProps> = ({}) => {
         return pairings;
     };
 
-    const handleSave = () => {
-        const pairings = getTableData();
+    const clearOpts = () => {
+        const selectors = document.getElementsByClassName(
+            "targetSelector",
+        ) as HTMLCollectionOf<HTMLSelectElement>;
 
-        updatePairings(pairings);
+        Array.from(selectors).map((selector) => {
+            selector.value = "";
+        });
+    };
+
+    const setDefaults = () => {
+        const selectors = document.getElementsByClassName(
+            "targetSelector",
+        ) as HTMLCollectionOf<HTMLSelectElement>;
+
+        Array.from(selectors).map((selector) => {
+            selector.value = selector.parentElement!.previousElementSibling!.id
+        });
+    }
+
+    const handleSave = () => {
+        const tablePairings = getTableData();
+
+        updatePairings(tablePairings);
     };
 
     const handleApply = () => {
@@ -78,7 +102,6 @@ const TargetPairingsForm: React.FC<TargetPairingsFormProps> = ({}) => {
                 players,
             };
 
-            setPairingsBackup(pairings);
             setPairings(pairings);
 
             return data;
@@ -87,15 +110,18 @@ const TargetPairingsForm: React.FC<TargetPairingsFormProps> = ({}) => {
 
     const { mutate: updatePairings } = useMutation({
         mutationFn: async (pairings: Pairing[]) => {
-            const payload: UpdatePairingsPayload = pairings
+            const payload: UpdatePairingsPayload = pairings;
 
-            const { data } = await axios.put("/api/admin/pairings", payload)
-            return data
+            const { data } = await axios.put("/api/admin/pairings", payload);
+            return data;
         },
     });
 
     const { mutate: applyPairings } = useMutation({
-        mutationFn: async () => {},
+        mutationFn: async () => {
+            const { data } = await axios.put("/api/admin/pairings/apply");
+            return data;
+        },
     });
 
     if (isLoading) {
@@ -144,9 +170,14 @@ const TargetPairingsForm: React.FC<TargetPairingsFormProps> = ({}) => {
                             <td className="px-5 py-2">
                                 <select
                                     className="targetSelector text-black"
-                                    defaultValue={pairing.killedID ? pairing.killedID : ""}
-                                    id={pairing.killedID ? pairing.killedID : ""}
+                                    defaultValue={
+                                        pairing.killedID ? pairing.killedID : ""
+                                    }
+                                    id={
+                                        pairing.killedID ? pairing.killedID : ""
+                                    }
                                 >
+                                    <option id="" value="" />
                                     {data?.players.map((player) => {
                                         return (
                                             <option
@@ -164,6 +195,12 @@ const TargetPairingsForm: React.FC<TargetPairingsFormProps> = ({}) => {
                 })}
             </table>
             <div className="flex w-full flex-row items-center justify-end space-x-4">
+                <Button variant={"destructive"} onClick={() => setDefaults()}>
+                    Defaults
+                </Button>
+                <Button variant={"destructive"} onClick={() => clearOpts()}>
+                    Clear
+                </Button>
                 <Button
                     variant={"destructive"}
                     onClick={() => revertPairings()}

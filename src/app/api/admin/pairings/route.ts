@@ -66,7 +66,7 @@ export async function PUT(req: NextRequest) {
 
         const pairings = PairingsUpdateValidator.parse(body);
 
-        pairings.map(async (pairing) => {
+        const newPairings = pairings.map(async (pairing) => {
             const thing = await db.targetPairing.update({
                 where: {
                     id: pairing.id,
@@ -74,14 +74,14 @@ export async function PUT(req: NextRequest) {
                     killerID: pairing.killerID
                 },
                 data: {
-                    killedID: pairing.killedID || undefined
+                    killedID: pairing.killedID
                 }
             });
 
             return thing;
         });
 
-        return NextResponse.json(`Targets Updated Successfully`, { status: 200 })
+        return NextResponse.json(`Targets Updated Successfully: ${newPairings}`, { status: 200 })
     } catch (err) {
         return NextResponse.json(`An Error Occurred: ${err}`, { status: 500 })
     }

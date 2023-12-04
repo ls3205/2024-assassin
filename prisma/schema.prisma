@@ -86,7 +86,7 @@ model TargetPairing {
     id String @id @default(cuid())
 
     killerID     String
-    killedID     String
+    killedID     String?
     
     TargetList   TargetList? @relation(fields: [targetListId], references: [id])
     targetListId String?
