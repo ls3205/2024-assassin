@@ -35,3 +35,10 @@ interface User {
 
     kills: Kill[]
 }
+
+interface Pairing {
+    id: string;
+    killerID: string;
+    killedID: string;
+    targetListId: string | null;
+}
