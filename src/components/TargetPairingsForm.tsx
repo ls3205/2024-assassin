@@ -136,27 +136,25 @@ const TargetPairingsForm: React.FC<TargetPairingsFormProps> = ({}) => {
 
         const selectorsArray = Array.from(selectors);
 
-        selectorsArray.map((selector) => {
-            const idToCheck = selector.value;
+        const dfs = (reqId: string) => {
+            
+        }
 
-            selectorsArray.map((subSelector) => {
-                if (
-                    subSelector.value === idToCheck &&
-                    selector !== subSelector
-                ) {
-                    const row1 =
-                        selector.parentElement?.previousElementSibling
-                            ?.previousElementSibling?.previousElementSibling
-                            ?.id;
-                    
-                    const row2 = 
-                }
-            });
+        selectorsArray.map((selector) => {
+            dfs(selector.value)
         });
 
         const duplicateDFS = () => {
-            
-        }
+            const pairs = [];
+
+            const selectors = Array.from(
+                document.getElementsByClassName(
+                    "targetSelector",
+                ) as HTMLCollectionOf<HTMLSelectElement>,
+            );
+
+
+        };
 
         const index = selectorsArray.indexOf(
             selectorsArray.find(
