@@ -9,8 +9,17 @@ import { UpdatePairingsPayload } from "@/lib/validators/pairings";
 
 interface TargetPairingsFormProps {}
 
+interface CheckDuplicateState {
+    id: string;
+    UserID: string;
+    TargetID: string;
+}
+
 const TargetPairingsForm: React.FC<TargetPairingsFormProps> = ({}) => {
     const [pairings, setPairings] = useState<Pairing[]>();
+    const [checkDuplicatePairs, setCheckDuplicatePairs] = useState<
+        CheckDuplicateState[]
+    >([{ id: "", UserID: "", TargetID: "" }]);
 
     const revertPairings = () => {
         const selectors = document.getElementsByClassName(
@@ -74,9 +83,48 @@ const TargetPairingsForm: React.FC<TargetPairingsFormProps> = ({}) => {
         ) as HTMLCollectionOf<HTMLSelectElement>;
 
         Array.from(selectors).map((selector) => {
-            selector.value = selector.parentElement!.previousElementSibling!.id
+            selector.value = selector.parentElement!.previousElementSibling!.id;
         });
-    }
+    };
+
+    const getRandomPlayer = () => {
+        const player =
+            data?.players[Math.floor(Math.random() * data.players.length)];
+
+        return player;
+    };
+
+    const randomize = () => {
+        const picked: string[] = [];
+
+        const selectors = document.getElementsByClassName(
+            "targetSelector",
+        ) as HTMLCollectionOf<HTMLSelectElement>;
+
+        Array.from(selectors).map((selector) => {
+            var playerID = getRandomPlayer()!.id;
+
+            if (playerID in picked) {
+                playerID = getRandomPlayer()!.id;
+            }
+
+            picked.push(playerID);
+
+            selector.value = playerID;
+        });
+    };
+
+    const checkDuplicate = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const targetPairingID =
+            e.target.parentElement?.previousElementSibling
+                ?.previousElementSibling?.previousElementSibling?.id;
+
+        const selectors = document.getElementsByClassName(
+            "targetSelector",
+        ) as HTMLCollectionOf<HTMLSelectElement>;
+
+        Array.from(selectors).map((selector) => {});
+    };
 
     const handleSave = () => {
         const tablePairings = getTableData();
@@ -103,6 +151,10 @@ const TargetPairingsForm: React.FC<TargetPairingsFormProps> = ({}) => {
             };
 
             setPairings(pairings);
+
+            for (var pairing in data.pairings) {
+                setCheckDuplicatePairs([...checkDuplicatePairs, {id: pairing.}]);
+            }
 
             return data;
         },
@@ -176,6 +228,7 @@ const TargetPairingsForm: React.FC<TargetPairingsFormProps> = ({}) => {
                                     id={
                                         pairing.killedID ? pairing.killedID : ""
                                     }
+                                    onChange={(e) => checkDuplicate(e)}
                                 >
                                     <option id="" value="" />
                                     {data?.players.map((player) => {
@@ -195,6 +248,9 @@ const TargetPairingsForm: React.FC<TargetPairingsFormProps> = ({}) => {
                 })}
             </table>
             <div className="flex w-full flex-row items-center justify-end space-x-4">
+                <Button onClick={() => randomize()} className="bg-blue-400">
+                    Randomize
+                </Button>
                 <Button variant={"destructive"} onClick={() => setDefaults()}>
                     Defaults
                 </Button>
