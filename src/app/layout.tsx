@@ -17,13 +17,18 @@ export const metadata = {
 
 export default function RootLayout({
     children,
+    killConfirmModal,
 }: {
     children: React.ReactNode;
+    killConfirmModal: React.ReactNode;
 }) {
     return (
         <html lang="en">
             <body className={`font-sans ${inter.variable}`}>
-                <Providers>{children}</Providers>
+                <Providers>
+                    {children}
+                    {killConfirmModal}
+                </Providers>
             </body>
         </html>
     );

@@ -6,10 +6,15 @@ import { AlertCircle, ArrowRightIcon, Loader2 } from "lucide-react";
 import React from "react";
 import { Button, buttonVariants } from "./ui/Button";
 import { Separator } from "./ui/Separator";
+import { redirect } from "next/navigation";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 interface TargetPairingsProps {}
 
 const TargetPairings: React.FC<TargetPairingsProps> = ({}) => {
+    const router = useRouter();
+
     const { isLoading, error, data } = useQuery({
         queryKey: ["TargetPairings"],
         queryFn: async () => {
@@ -20,8 +25,10 @@ const TargetPairings: React.FC<TargetPairingsProps> = ({}) => {
     });
 
     const confirmKill = (user: Player, target: Player | undefined) => {
-        if (user === undefined || target === undefined) {
-            return;
+        if (user.id && target?.id) {
+            router.push(
+                `/admin/pairings/confirm?user=${user.id}&target=${target?.id}`,
+            );
         }
     };
 
@@ -60,7 +67,11 @@ const TargetPairings: React.FC<TargetPairingsProps> = ({}) => {
 
                 return (
                     <>
-                    {data[0] === player ? <Separator className="w-[225%]" /> : ""}
+                        {data[0] === player ? (
+                            <Separator className="w-[225%]" />
+                        ) : (
+                            ""
+                        )}
                         <tr
                             className="cursor-pointer hover:text-primary"
                             onClick={() => confirmKill(player, target)}
@@ -71,7 +82,11 @@ const TargetPairings: React.FC<TargetPairingsProps> = ({}) => {
                             </td>
                             <td className="py-2">{target?.name}</td>
                         </tr>
-                        {data[data.length - 1] !== player ? <Separator className="w-[225%]" /> : ""}
+                        {data[data.length - 1] !== player ? (
+                            <Separator className="w-[225%]" />
+                        ) : (
+                            ""
+                        )}
                     </>
                 );
             })}
