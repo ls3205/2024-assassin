@@ -6,7 +6,7 @@ interface pageProps {}
 const page: React.FC<pageProps> = ({}) => {
     return (
         <main className="flex min-h-screen flex-col items-center">
-            <Navbar />
+            {/* <Navbar /> */}
         </main>
     );
 };

@@ -26,7 +26,11 @@ const TargetPairings: React.FC<TargetPairingsProps> = ({}) => {
 
     const confirmKill = (user: Player, target: Player | undefined) => {
         if (user.id && target?.id) {
-            router.push(
+            // router.push(
+            //     `/admin/pairings/confirm?user=${user.id}&target=${target?.id}`,
+            // );
+
+            window.location.replace(
                 `/admin/pairings/confirm?user=${user.id}&target=${target?.id}`,
             );
         }
@@ -66,7 +70,9 @@ const TargetPairings: React.FC<TargetPairingsProps> = ({}) => {
                 );
 
                 return (
-                    <>
+                    <Link
+                        href={`/admin/pairings/confirm?user=${player.id}&target=${target?.id}`}
+                    >
                         {data[0] === player ? (
                             <Separator className="w-[225%]" />
                         ) : (
@@ -74,7 +80,7 @@ const TargetPairings: React.FC<TargetPairingsProps> = ({}) => {
                         )}
                         <tr
                             className="cursor-pointer hover:text-primary"
-                            onClick={() => confirmKill(player, target)}
+                            // onClick={() => confirmKill(player, target)}
                         >
                             <td className="py-2">{player.name}</td>
                             <td className="py-2">
@@ -87,7 +93,7 @@ const TargetPairings: React.FC<TargetPairingsProps> = ({}) => {
                         ) : (
                             ""
                         )}
-                    </>
+                    </Link>
                 );
             })}
         </table>

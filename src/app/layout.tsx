@@ -1,3 +1,4 @@
+import Navbar from "@/components/Navbar";
 import Providers from "@/components/Providers";
 import "@/styles/globals.css";
 
@@ -17,17 +18,17 @@ export const metadata = {
 
 export default function RootLayout({
     children,
-    killConfirmModal,
+    modal,
 }: {
     children: React.ReactNode;
-    killConfirmModal: React.ReactNode;
+    modal: React.ReactNode;
 }) {
     return (
         <html lang="en">
             <body className={`font-sans ${inter.variable}`}>
                 <Providers>
-                    {killConfirmModal}
                     {children}
+                    {modal}
                 </Providers>
             </body>
         </html>
