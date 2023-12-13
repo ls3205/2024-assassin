@@ -1,4 +1,5 @@
 import Modal from "@/components/Modal";
+import { DialogHeader, DialogTitle } from "@/components/ui/Dialog";
 import { getAuthSession } from "@/lib/auth";
 import { useSearchParams } from "next/navigation";
 import React from "react";
@@ -15,11 +16,11 @@ const page: React.FC<pageProps> = ({ params, searchParams }) => {
     const target = searchParams.target;
 
     return (
-        // <Modal>
-        <main className="flex min-h-screen flex-col items-center justify-center bg-black opacity-30">
-            <div className="h-96 w-96 rounded-lg bg-background"></div>
-        </main>
-        // </Modal>
+        <Modal>
+            <DialogHeader>
+                <DialogTitle>Confirm Kill</DialogTitle>
+            </DialogHeader>
+        </Modal>
     );
 };
 
