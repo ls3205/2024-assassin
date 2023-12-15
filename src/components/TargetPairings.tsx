@@ -64,15 +64,13 @@ const TargetPairings: React.FC<TargetPairingsProps> = ({}) => {
                 </th>
                 <th className="w-[44.44%]">Target</th>
             </tr>
-            {data.map((player) => {
+            {data && data.map((player) => {
                 const target = data.find(
                     (target) => target.id === player.targetID,
                 );
 
                 return (
-                    <Link
-                        href={`/admin/pairings/confirm?user=${player.id}&target=${target?.id}`}
-                    >
+                    <>
                         {data[0] === player ? (
                             <Separator className="w-[225%]" />
                         ) : (
@@ -80,7 +78,7 @@ const TargetPairings: React.FC<TargetPairingsProps> = ({}) => {
                         )}
                         <tr
                             className="cursor-pointer hover:text-primary"
-                            // onClick={() => confirmKill(player, target)}
+                            onClick={() => confirmKill(player, target)}
                         >
                             <td className="py-2">{player.name}</td>
                             <td className="py-2">
@@ -93,7 +91,7 @@ const TargetPairings: React.FC<TargetPairingsProps> = ({}) => {
                         ) : (
                             ""
                         )}
-                    </Link>
+                    </>
                 );
             })}
         </table>
