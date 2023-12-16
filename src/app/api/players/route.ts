@@ -20,7 +20,7 @@ export async function GET(req: NextRequest) {
                 }
             })
 
-            for (var user of users) {
+            for (const user of users) {
                 players.push({
                     name: user.name,
                     image: user.image,
