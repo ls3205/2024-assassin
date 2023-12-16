@@ -29,7 +29,7 @@ export default function Home() {
                     </div>
                     <Link
                         href={"/players"}
-                        className="z-50 -ml-[100%] box-border h-full w-full flex-none bg-gradient-to-t from-neutral-200 from-5%% to-transparent transition-all duration-100 group-hover:from-background dark:from-neutral-900"
+                        className="z-50 -ml-[100%] box-border h-full w-full flex-none bg-gradient-to-t from-neutral-200 from-5% to-transparent transition-all duration-100 group-hover:from-background dark:from-neutral-900"
                     >
                         <div className="hidden group-hover:flex h-full w-full items-end justify-center pb-4">
                             <h1 className="text-2xl font-semibold">
@@ -47,7 +47,7 @@ export default function Home() {
                     </div>
                     <Link
                         href={"/kills"}
-                        className="z-50 -ml-[100%] box-border h-full w-full flex-none bg-gradient-to-t from-neutral-200 from-5%% to-transparent transition-all duration-100 group-hover:from-background dark:from-neutral-900"
+                        className="z-50 -ml-[100%] box-border h-full w-full flex-none bg-gradient-to-t from-neutral-200 from-5% to-transparent transition-all duration-100 group-hover:from-background dark:from-neutral-900"
                     >
                         <div className="hidden group-hover:flex h-full w-full items-end justify-center pb-4">
                             <h1 className="text-2xl font-semibold">

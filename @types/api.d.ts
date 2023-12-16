@@ -2,8 +2,9 @@ interface Player {
     name: string
     image: string
     status: "ALIVE" | "DEAD"
-    targetID: string | null
     id: string
+    targetPairing: Pairing?;
+    targetId: string
 }
 
 interface Kill {
@@ -12,8 +13,7 @@ interface Kill {
     User: User
     userId: string
 
-    killerID: string
-    killedID: string
+    targetId: string
 
     time: Date
 }
@@ -34,11 +34,13 @@ interface User {
     sessions: Session[]
 
     kills: Kill[]
+
 }
 
 interface Pairing {
     id: string;
-    killerID: string;
-    killedID: string | null;
-    targetListId: string | null;
+    userId: string;
+    targetId: string | null;
+    targetListId: string;
+    complete: boolean
 }

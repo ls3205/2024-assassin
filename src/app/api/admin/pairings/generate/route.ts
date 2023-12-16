@@ -17,17 +17,17 @@ export async function GET(req: NextRequest) {
             }
         })
 
-        // players.map(async (player) => {
-        //     const head = await db.targetPairing.create({
-        //         data: {
-        //             targetListId: '0',
-        //             killerID: player.id,
-        //             killedID: player.id
-        //         }
-        //     })
+        players.map(async (player) => {
+            const head = await db.targetPairing.create({
+                data: {
+                    targetListId: '0',
+                    userId: player.id,
+                    targetId: player.id
+                }
+            })
 
-        //     return head
-        // })
+            return head
+        })
 
         return NextResponse.json(`Heads Exist`, {status: 200})
     } catch (err) {

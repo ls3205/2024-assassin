@@ -17,7 +17,7 @@ export async function GET(req: NextRequest) {
             const pairing = await db.targetPairing.findFirst({
                 where: {
                     targetListId: '0',
-                    killerID: reqPlayerID
+                    userId: reqPlayerID
                 }
             })
 
@@ -42,8 +42,8 @@ export async function GET(req: NextRequest) {
         })
 
         pairings.sort((a, b) => {
-            const aUser = players.find((player) => player.id === a.killerID)
-            const bUser = players.find((player) => player.id === b.killerID)
+            const aUser = players.find((player) => player.id === a.userId)
+            const bUser = players.find((player) => player.id === b.userId)
 
             return aUser!.name!.localeCompare(bUser!.name!)
         })
@@ -71,10 +71,11 @@ export async function PUT(req: NextRequest) {
                 where: {
                     id: pairing.id,
                     targetListId: '0',
-                    killerID: pairing.killerID
+                    userId: pairing.userId
                 },
                 data: {
-                    killedID: pairing.killedID
+                    targetId: pairing.targetId,
+                    complete: false
                 }
             });
 

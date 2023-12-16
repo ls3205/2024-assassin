@@ -41,14 +41,15 @@ const TargetPairingsForm: React.FC<TargetPairingsFormProps> = ({}) => {
         Array.from(rows).map((row) => {
             let pairing: Pairing = {
                 id: "",
-                killerID: "",
-                killedID: "",
+                userId: "",
+                targetId: "",
                 targetListId: "",
+                complete: false
             };
 
             pairing.id = row.getElementsByClassName("pairingID")[0]!.id;
-            pairing.killerID = row.getElementsByClassName("userID")[0]!.id;
-            pairing.killedID =
+            pairing.userId = row.getElementsByClassName("userID")[0]!.id;
+            pairing.targetId =
                 (
                     row.getElementsByClassName(
                         "targetSelector",
@@ -212,8 +213,8 @@ const TargetPairingsForm: React.FC<TargetPairingsFormProps> = ({}) => {
             for (var pairing of data.pairings) {
                 checkPairings.push({
                     id: pairing.id,
-                    UserID: pairing.killerID,
-                    TargetID: pairing.killedID || "",
+                    UserID: pairing.userId,
+                    TargetID: pairing.targetId || "",
                     duplicate: false,
                 });
             }
@@ -259,7 +260,7 @@ const TargetPairingsForm: React.FC<TargetPairingsFormProps> = ({}) => {
                 </tr>
                 {pairings?.map((pairing) => {
                     const UserName = data?.players.find(
-                        (player) => player.id === pairing.killerID,
+                        (player) => player.id === pairing.userId,
                     );
 
                     return (
@@ -279,23 +280,27 @@ const TargetPairingsForm: React.FC<TargetPairingsFormProps> = ({}) => {
                             </td>
                             <td
                                 className="userID px-5 py-2"
-                                id={pairing.killerID}
+                                id={pairing.userId}
                             >
-                                {UserName?.name} ({pairing.killerID})
+                                {UserName?.name} ({pairing.userId})
                             </td>
                             <td className="px-5 py-2">
                                 <select
                                     className="targetSelector text-black"
                                     defaultValue={
-                                        pairing.killedID ? pairing.killedID : ""
+                                        pairing.targetId ? pairing.targetId : ""
                                     }
                                     id={
-                                        pairing.killedID ? pairing.killedID : ""
+                                        pairing.targetId ? pairing.targetId : ""
                                     }
                                     onChange={() => validate()}
                                 >
                                     <option id="" value="" />
                                     {data?.players.map((player) => {
+                                        if (player.status === "DEAD") {
+                                            return
+                                        }
+
                                         return (
                                             <option
                                                 id={player.id}

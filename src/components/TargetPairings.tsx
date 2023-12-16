@@ -14,24 +14,21 @@ import DashboardTargetPairing from "./DashboardTargetPairing";
 interface TargetPairingsProps {}
 
 const TargetPairings: React.FC<TargetPairingsProps> = ({}) => {
-    const router = useRouter();
-
     const { isLoading, error, data } = useQuery({
         queryKey: ["TargetPairings"],
         queryFn: async () => {
-            const { data } = await axios.get("/api/players");
+            const pairings = (await axios.get("/api/admin/pairings"))
+                .data as Pairing[];
+            const players = (await axios.get("/api/players")).data as Player[];
 
-            return data as Player[];
+            const data = {
+                pairings,
+                players,
+            };
+
+            return data;
         },
     });
-
-    const confirmKill = (user: Player, target: Player | undefined) => {
-        if (user.id && target?.id) {
-            router.push(
-                `/admin/pairings/confirm?user=${user.id}&target=${target?.id}`,
-            );
-        }
-    };
 
     if (isLoading) {
         return (
@@ -61,30 +58,38 @@ const TargetPairings: React.FC<TargetPairingsProps> = ({}) => {
                 </th>
                 <th className="w-[44.44%]">Target</th>
             </tr>
-            {data.map((player) => {
-                const target = data.find(
-                    (target) => target.id === player.targetID,
+            {data.players.map((player) => {
+                if (player.status === "DEAD") {
+                    return;
+                }
+
+                const pairing = data.pairings.find(
+                    (pairing) => pairing.userId === player.id,
                 );
+
+                const target = data.players.find((player) => {
+                    if (player.targetId) {
+                        player.id === pairing?.targetId;
+                    }
+                });
+
+                const status = pairing?.complete;
 
                 return (
                     <>
-                        {data[0] === player ? (
+                        {data.players[0] === player ? (
                             <Separator className="w-[225%]" />
                         ) : (
                             ""
                         )}
-                        {/* <tr
-                            className="cursor-pointer hover:text-primary"
-                            onClick={() => confirmKill(player, target)}
-                        >
-                            <td className="py-2">{player.name}</td>
-                            <td className="py-2">
-                                <ArrowRightIcon />
-                            </td>
-                            <td className="py-2">{target?.name}</td>
-                        </tr> */}
-                        <DashboardTargetPairing targetId={target?.id} userId={player.id} userName={player.name} targetName={target?.name} />
-                        {data[data.length - 1] !== player ? (
+                        <DashboardTargetPairing
+                            targetId={target?.id}
+                            userId={player.id}
+                            userName={player.name}
+                            targetName={target?.name}
+                            status={status}
+                        />
+                        {data.players[data.players.length - 1] !== player ? (
                             <Separator className="w-[225%]" />
                         ) : (
                             ""

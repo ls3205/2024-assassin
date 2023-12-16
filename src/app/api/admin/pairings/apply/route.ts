@@ -21,7 +21,7 @@ export async function PUT(req: NextRequest) {
             const pairing = await db.targetPairing.findFirst({
                 where: {
                     targetListId: '0',
-                    killerID: player.id
+                    userId: player.id
                 }
             })
 
@@ -34,7 +34,7 @@ export async function PUT(req: NextRequest) {
                     id: player.id
                 },
                 data: {
-                    targetID: pairing.killedID
+                    targetId: pairing.targetId
                 }
             })
 
