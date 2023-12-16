@@ -39,7 +39,7 @@ const TargetPairingsForm: React.FC<TargetPairingsFormProps> = ({}) => {
         const pairings: Pairing[] = [];
 
         Array.from(rows).map((row) => {
-            let pairing: Pairing = {
+            const pairing: Pairing = {
                 id: "",
                 userId: "",
                 targetId: "",
@@ -147,7 +147,7 @@ const TargetPairingsForm: React.FC<TargetPairingsFormProps> = ({}) => {
             }
         }
 
-        for (let duplicate of duplicates) {
+        for (const duplicate of duplicates) {
             duplicate.parentElement?.classList.add("bg-primary");
         }
     };
@@ -172,7 +172,7 @@ const TargetPairingsForm: React.FC<TargetPairingsFormProps> = ({}) => {
             }
         });
 
-        for (let selfPick of selfPicks) {
+        for (const selfPick of selfPicks) {
             selfPick.parentElement?.classList.add("bg-blue-400");
         }
     };
@@ -210,7 +210,7 @@ const TargetPairingsForm: React.FC<TargetPairingsFormProps> = ({}) => {
 
             const checkPairings: CheckDuplicateState[] = [];
 
-            for (let pairing of data.pairings) {
+            for (const pairing of data.pairings) {
                 checkPairings.push({
                     id: pairing.id,
                     UserID: pairing.userId,
