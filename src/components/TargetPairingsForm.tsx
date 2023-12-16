@@ -104,7 +104,7 @@ const TargetPairingsForm: React.FC<TargetPairingsFormProps> = ({}) => {
         ) as HTMLCollectionOf<HTMLSelectElement>;
 
         Array.from(selectors).map((selector) => {
-            var playerID: string;
+            let playerID: string;
 
             do {
                 playerID = getRandomPlayer()!.id;
@@ -129,7 +129,7 @@ const TargetPairingsForm: React.FC<TargetPairingsFormProps> = ({}) => {
             return a.value.localeCompare(b.value);
         });
 
-        for (var i = 0; i < selectors.length - 1; i++) {
+        for (let i = 0; i < selectors.length - 1; i++) {
             const sel = selectors[i];
             const selp1 = selectors[i + 1];
 
@@ -147,7 +147,7 @@ const TargetPairingsForm: React.FC<TargetPairingsFormProps> = ({}) => {
             }
         }
 
-        for (var duplicate of duplicates) {
+        for (let duplicate of duplicates) {
             duplicate.parentElement?.classList.add("bg-primary");
         }
     };
@@ -172,7 +172,7 @@ const TargetPairingsForm: React.FC<TargetPairingsFormProps> = ({}) => {
             }
         });
 
-        for (var selfPick of selfPicks) {
+        for (let selfPick of selfPicks) {
             selfPick.parentElement?.classList.add("bg-blue-400");
         }
     };
@@ -210,7 +210,7 @@ const TargetPairingsForm: React.FC<TargetPairingsFormProps> = ({}) => {
 
             const checkPairings: CheckDuplicateState[] = [];
 
-            for (var pairing of data.pairings) {
+            for (let pairing of data.pairings) {
                 checkPairings.push({
                     id: pairing.id,
                     UserID: pairing.userId,

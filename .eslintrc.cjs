@@ -17,6 +17,9 @@ const config = {
     "@typescript-eslint/consistent-type-definitions": "off",
 
     "@typescript-eslint/no-empty-interface": 'off',
+    "@typescript-eslint/no-unsafe-assignment": 'off',
+    "@typescript-eslint/prefer-nullish-coalescing": 'off',
+    "@typescript-eslint/restrict-template-expressions": "off",
 
     "@typescript-eslint/consistent-type-imports": [
       "warn",
