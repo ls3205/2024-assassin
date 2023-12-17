@@ -41,7 +41,7 @@ export async function GET(req: NextRequest) {
         //     return createdHead
         // })
 
-        // return NextResponse.json(`Heads Exist`, {status: 200})
+        return NextResponse.json(`Heads Exist`, {status: 200})
     } catch (err) {
         return NextResponse.json(`An Error Occurred: ${err}`, {status: 500})
     }
