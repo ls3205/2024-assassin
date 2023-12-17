@@ -19,10 +19,9 @@ export async function PUT(req: NextRequest) {
             return NextResponse.json(`You cannot kill yourself 💀`, { status: 400 })
         }
 
-        const createdKill = await db.kill.create({
-            data: {
-                userId: kill.userId,
-                targetId: kill.targetId
+        const user = await db.user.findFirst({
+            where: {
+                id: kill.userId
             }
         })
 
@@ -33,6 +32,15 @@ export async function PUT(req: NextRequest) {
             data: {
                 status: "DEAD",
                 killedBy: kill.userId
+            }
+        })
+
+        const createdKill = await db.kill.create({
+            data: {
+                userId: kill.userId,
+                userName: user?.name!,
+                targetId: kill.targetId,
+                targetName: killedTarget.name
             }
         })
 

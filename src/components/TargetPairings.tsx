@@ -67,11 +67,9 @@ const TargetPairings: React.FC<TargetPairingsProps> = ({}) => {
                     (pairing) => pairing.userId === player.id,
                 );
 
-                const target = data.players.find((player) => {
-                    if (player.targetId) {
-                        player.id === pairing?.targetId;
-                    }
-                });
+                const target = data.players.find(
+                    (targetPlayer) => targetPlayer.id === player.targetId,
+                );
 
                 const status = pairing?.complete;
 
@@ -88,6 +86,7 @@ const TargetPairings: React.FC<TargetPairingsProps> = ({}) => {
                             userName={player.name}
                             targetName={target?.name}
                             status={status}
+                            confirmable
                         />
                         {data.players[data.players.length - 1] !== player ? (
                             <Separator className="w-[225%]" />

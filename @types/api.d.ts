@@ -5,6 +5,7 @@ interface Player {
     id: string
     targetPairing: Pairing?;
     targetId: string
+    killedBy: string?;
 }
 
 interface Kill {
@@ -12,8 +13,10 @@ interface Kill {
 
     User: User
     userId: string
+    userName: string
 
     targetId: string
+    targetName: string?;
 
     time: Date
 }

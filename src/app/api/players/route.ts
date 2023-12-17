@@ -25,8 +25,9 @@ export async function GET(req: NextRequest) {
                     name: user.name,
                     image: user.image,
                     status: user.status,
-                    targetID: session?.user.role === "ADMIN" && user.targetId,
-                    id: user.id
+                    targetId: session?.user.role === "ADMIN" && user.targetId,
+                    id: user.id,
+                    killedBy: user.killedBy
                 })
             }
 
@@ -48,7 +49,7 @@ export async function GET(req: NextRequest) {
             return NextResponse.json(`User Not Found`, { status: 400 })
         }
 
-        return NextResponse.json({ name: dbPlayer.name, image: dbPlayer.image, status: dbPlayer.status, targetId: session?.user.role === "ADMIN" && dbPlayer.targetId, id: dbPlayer.id }, { status: 200 })
+        return NextResponse.json({ name: dbPlayer.name, image: dbPlayer.image, status: dbPlayer.status, targetId: session?.user.role === "ADMIN" && dbPlayer.targetId, id: dbPlayer.id, killedBy: dbPlayer.killedBy }, { status: 200 })
 
     } catch (err) {
         return NextResponse.json(`An Error Occurred: ${err}`, { status: 500 })

@@ -13,6 +13,7 @@ interface DashboardTargetPairingProps {
     targetId?: string;
     targetName?: string;
     status?: boolean;
+    confirmable?: boolean;
 }
 
 const DashboardTargetPairing: React.FC<DashboardTargetPairingProps> = ({
@@ -21,6 +22,7 @@ const DashboardTargetPairing: React.FC<DashboardTargetPairingProps> = ({
     targetId,
     targetName,
     status,
+    confirmable = false,
 }) => {
     const [toggled, setToggled] = useState(false);
 
@@ -52,7 +54,9 @@ const DashboardTargetPairing: React.FC<DashboardTargetPairingProps> = ({
                     status && "text-destructive line-through",
                     "relative cursor-pointer data-[status=false]:hover:text-primary",
                 )}
-                onClick={() => !toggled && !status && targetId && setToggled(true)}
+                onClick={() =>
+                    !toggled && !status && targetId && confirmable && setToggled(true)
+                }
             >
                 <td className="py-2">{userName}</td>
                 <td className="py-2">

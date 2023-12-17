@@ -15,7 +15,7 @@ const page: React.FC<pageProps> = async ({params}) => {
 
     return (
         <main className="flex min-h-screen flex-col items-center">
-            {/* <Navbar /> */}
+            <Navbar />
             <PlayerCard playerID={id} session={session} />
         </main>
     );

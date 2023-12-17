@@ -1,4 +1,5 @@
 import Navbar from "@/components/Navbar";
+import SavedTargetPairings from "@/components/SavedTargetPairings";
 import TargetPairings from "@/components/TargetPairings";
 import { getAuthSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
@@ -28,7 +29,10 @@ const page: React.FC<pageProps> = async ({}) => {
                     <h1 className="my-2 w-full text-center text-2xl font-semibold">
                         Stored Target Pairings
                     </h1>
-                    I haven't thought this far yet 😅
+                    <h1 className="my-1 w-full text-center text-base font-light">
+                        Click on Apply at the Bottom to Apply
+                    </h1>
+                    <SavedTargetPairings />
                 </div>
             </div>
         </main>

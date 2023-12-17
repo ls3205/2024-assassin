@@ -51,7 +51,7 @@ enum Status {
 
 model User {
     id       String  @id @default(cuid())
-    name     String?
+    name     String
     email    String
     password String
     image    String?
@@ -64,21 +64,24 @@ model User {
     accounts Account[]
     sessions Session[]
 
-    kills         Kill[]
+    kills Kill[]
 
     targetPairing TargetPairing?
-    targetId String?
+    targetId      String?
 
     @@unique([id, email])
+    @@unique([id, name])
 }
 
 model Kill {
     id String @id @default(cuid())
 
-    User   User   @relation(fields: [userId], references: [id])
-    userId String
+    User     User   @relation(fields: [userId, userName], references: [id, name])
+    userId   String
+    userName String
 
-    targetId String
+    targetId   String
+    targetName String?
 
     time DateTime @default(now())
 }
