@@ -1,11 +1,12 @@
 "use client";
 
 import { useMutation, useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import React, { useState } from "react";
 import { Button } from "./ui/Button";
 import { Loader2 } from "lucide-react";
 import { UpdatePairingsPayload } from "@/lib/validators/pairings";
+import { useToast } from "./ui/use-toast";
 
 interface TargetPairingsFormProps {}
 
@@ -21,6 +22,8 @@ const TargetPairingsForm: React.FC<TargetPairingsFormProps> = ({}) => {
     const [checkDuplicatePairs, setCheckDuplicatePairs] = useState<
         CheckDuplicateState[]
     >([]);
+
+    const { toast } = useToast();
 
     const revertPairings = () => {
         const selectors = document.getElementsByClassName(
@@ -44,7 +47,7 @@ const TargetPairingsForm: React.FC<TargetPairingsFormProps> = ({}) => {
                 userId: "",
                 targetId: "",
                 targetListId: "",
-                complete: false
+                complete: false,
             };
 
             pairing.id = row.getElementsByClassName("pairingID")[0]!.id;
@@ -232,12 +235,87 @@ const TargetPairingsForm: React.FC<TargetPairingsFormProps> = ({}) => {
             const { data } = await axios.put("/api/admin/pairings", payload);
             return data;
         },
+        onError: (err) => {
+            if (err instanceof AxiosError) {
+                if (err.response?.status === 401) {
+                    return toast({
+                        title: "Unauthorized!",
+                        variant: "destructive",
+                        duration: 2000,
+                    });
+                }
+                if (err.response?.status === 500) {
+                    const target = JSON.parse(err.response.data)[0].path;
+                    const res = JSON.parse(err.response.data)[0].message;
+
+                    return toast({
+                        title: "Error!",
+                        description: `${target}: ${res}`,
+                        variant: "destructive",
+                        duration: 2000,
+                    });
+                }
+            }
+
+            return toast({
+                title: "Error!",
+                description: `Could not update target pairings.`,
+                variant: "destructive",
+                duration: 2000,
+            });
+        },
+        onSuccess: (data) => {
+            return toast({
+                title: "Updated Pairings",
+                description:
+                    "Target Pairings have been updated, but not yet applied!",
+                variant: "success",
+                duration: 2000,
+            });
+        },
     });
 
     const { mutate: applyPairings } = useMutation({
         mutationFn: async () => {
             const { data } = await axios.put("/api/admin/pairings/apply");
             return data;
+        },
+        onError(err) {
+            if (err instanceof AxiosError) {
+                if (err.response?.status === 401) {
+                    return toast({
+                        title: "Unauthorized!",
+                        variant: "destructive",
+                        duration: 2000,
+                    });
+                }
+                if (err.response?.status === 500) {
+                    const target = JSON.parse(err.response.data)[0].path;
+                    const res = JSON.parse(err.response.data)[0].message;
+
+                    return toast({
+                        title: "Error!",
+                        description: `${target}: ${res}`,
+                        variant: "destructive",
+                        duration: 2000,
+                    });
+                }
+            }
+
+            return toast({
+                title: "Error!",
+                description: `Could not apply target pairings.`,
+                variant: "destructive",
+                duration: 2000,
+            });
+        },
+        onSuccess: (data) => {
+            return toast({
+                title: "Applied Pairings",
+                description: "Target Pairings are now Live!",
+                variant: "success",
+                duration: 2000,
+            });
         },
     });
 
@@ -298,7 +376,7 @@ const TargetPairingsForm: React.FC<TargetPairingsFormProps> = ({}) => {
                                     <option id="" value="" />
                                     {data?.players.map((player) => {
                                         if (player.status === "DEAD") {
-                                            return
+                                            return;
                                         }
 
                                         return (

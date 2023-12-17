@@ -1,16 +1,21 @@
 "use client";
 
 import { useMutation, useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { AlertCircle, ArrowRightIcon, Loader2 } from "lucide-react";
 import React from "react";
 import { Separator } from "./ui/Separator";
 import DashboardTargetPairing from "./DashboardTargetPairing";
 import { Button } from "./ui/Button";
+import { useToast } from "./ui/use-toast";
+import { useRouter } from "next/navigation";
 
 interface SavedTargetPairingsProps {}
 
 const SavedTargetPairings: React.FC<SavedTargetPairingsProps> = ({}) => {
+    const { toast } = useToast();
+    const router = useRouter();
+
     const { isLoading, error, data } = useQuery({
         queryKey: ["TargetPairings"],
         queryFn: async () => {
@@ -31,6 +36,45 @@ const SavedTargetPairings: React.FC<SavedTargetPairingsProps> = ({}) => {
         mutationFn: async () => {
             const { data } = await axios.put("/api/admin/pairings/apply");
             return data;
+        },
+        onError(err) {
+            if (err instanceof AxiosError) {
+                if (err.response?.status === 401) {
+                    return toast({
+                        title: "Unauthorized!",
+                        variant: "destructive",
+                        duration: 2000,
+                    });
+                }
+                if (err.response?.status === 500) {
+                    const target = JSON.parse(err.response.data)[0].path;
+                    const res = JSON.parse(err.response.data)[0].message;
+
+                    return toast({
+                        title: "Error!",
+                        description: `${target}: ${res}`,
+                        variant: "destructive",
+                        duration: 2000,
+                    });
+                }
+            }
+
+            return toast({
+                title: "Error!",
+                description: `Could not apply target pairings.`,
+                variant: "destructive",
+                duration: 2000,
+            });
+        },
+        onSuccess: (data) => {
+            toast({
+                title: "Applied Pairings",
+                description: "Target Pairings are now Live!",
+                variant: "success",
+                duration: 2000,
+            });
+
+            return router.refresh();
         },
     });
 
@@ -106,7 +150,7 @@ const SavedTargetPairings: React.FC<SavedTargetPairingsProps> = ({}) => {
                 variant={"default"}
                 className="w-full bg-green-500"
                 onClick={() => {
-                    applyPairings;
+                    applyPairings();
                 }}
             >
                 Apply

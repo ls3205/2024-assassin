@@ -59,7 +59,7 @@ export async function PUT(req: NextRequest) {
             }
         })
 
-        return NextResponse.json({ createdKill, killedTarget, completedPairing, deletedPairing }, { status: 200 })
+        return NextResponse.json(createdKill, { status: 200 })
     } catch (err) {
         return NextResponse.json(`An Error Occurred: ${err}`, { status: 500 })
     }
