@@ -105,6 +105,24 @@ const NavbarLinks: React.FC<NavbarLinksProps> = ({ session }) => {
                                             </Link>
                                         </NavigationMenuLink>
                                     </li>
+                                    <li>
+                                        <NavigationMenuLink>
+                                            <Link
+                                                className={cn(
+                                                    pathname ===
+                                                        "/admin/kills"
+                                                        ? "text-primary"
+                                                        : "text-foreground",
+                                                    buttonVariants({
+                                                        variant: "ghost",
+                                                    }),
+                                                )}
+                                                href={"/admin/kills"}
+                                            >
+                                                Kill Manager
+                                            </Link>
+                                        </NavigationMenuLink>
+                                    </li>
                                 </ul>
                             </NavigationMenuContent>
                         </NavigationMenuItem>

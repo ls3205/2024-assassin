@@ -9,9 +9,11 @@ import KillCard from "./KillCard";
 import Link from "next/link";
 import { buttonVariants } from "./ui/Button";
 
-interface KillFeedProps {}
+interface KillFeedProps {
+    mutable: boolean;
+}
 
-const KillFeed: React.FC<KillFeedProps> = ({}) => {
+const KillFeed: React.FC<KillFeedProps> = ({ mutable = false }) => {
     const { isLoading, error, data } = useQuery({
         queryKey: ["Kills"],
         queryFn: async () => {
@@ -51,7 +53,7 @@ const KillFeed: React.FC<KillFeedProps> = ({}) => {
                     {data.map((kill) => {
                         return (
                             <li>
-                                <KillCard kill={kill} />
+                                <KillCard mutable={mutable} kill={kill} />
                             </li>
                         );
                     })}
