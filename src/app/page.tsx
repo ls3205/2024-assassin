@@ -1,37 +1,62 @@
+import KillFeed from "@/components/KillFeed";
+import Navbar from "@/components/Navbar";
+import PlayerList from "@/components/PlayerList";
+import { buttonVariants } from "@/components/ui/Button";
+import { cn } from "@/lib/utils";
 import Link from "next/link";
 
-export default function HomePage() {
-  return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
-      <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
-        <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
-          Create <span className="text-[hsl(280,100%,70%)]">T3</span> App
-        </h1>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
-          <Link
-            className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
-            href="https://create.t3.gg/en/usage/first-steps"
-            target="_blank"
-          >
-            <h3 className="text-2xl font-bold">First Steps →</h3>
-            <div className="text-lg">
-              Just the basics - Everything you need to know to set up your
-              database and authentication.
+export default function Home() {
+    return (
+        <main className="flex min-h-screen flex-col items-center">
+            <Navbar />
+            <div className="m-4 flex h-96 w-[70%] flex-row items-center justify-center rounded-lg bg-secondary">
+                <div className="flex h-full w-1/2 flex-col items-center p-4">
+                    <h1>Current Safezone</h1>
+                    <div className="h-full w-full rounded-lg bg-primary"></div>
+                </div>
+                <div className="flex h-full w-1/2 flex-col items-center p-4">
+                    <h1>Next Safezone</h1>
+                    <div className="h-full w-full rounded-lg bg-primary"></div>
+                </div>
             </div>
-          </Link>
-          <Link
-            className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
-            href="https://create.t3.gg/en/introduction"
-            target="_blank"
-          >
-            <h3 className="text-2xl font-bold">Documentation →</h3>
-            <div className="text-lg">
-              Learn more about Create T3 App, the libraries it uses, and how to
-              deploy it.
+            <div className="flex w-[70%] flex-col items-center justify-center lg:flex-row lg:items-start">
+                <div className="group m-4 flex h-96 w-full flex-nowrap overflow-hidden rounded-lg bg-secondary lg:w-1/2">
+                    <div className="flex w-full h-full flex-col items-center">
+                        <h1 className="my-2 w-full text-center text-2xl font-semibold">
+                            Players
+                        </h1>
+                        <PlayerList />
+                    </div>
+                    <Link
+                        href={"/players"}
+                        className="z-50 -ml-[100%] box-border h-full w-full flex-none bg-gradient-to-t from-neutral-200 from-5% to-transparent transition-all duration-100 group-hover:from-background dark:from-neutral-900"
+                    >
+                        <div className="hidden group-hover:flex h-full w-full items-end justify-center pb-4">
+                            <h1 className="text-2xl font-semibold">
+                                Click to View Full Player List
+                            </h1>
+                        </div>
+                    </Link>
+                </div>
+                <div className="group m-4 flex h-96 w-full flex-nowrap overflow-hidden rounded-lg bg-secondary lg:w-1/2">
+                    <div className="flex w-full h-full flex-col items-center">
+                        <h1 className="my-2 w-full text-center text-2xl font-semibold">
+                            Kills
+                        </h1>
+                        <KillFeed />
+                    </div>
+                    <Link
+                        href={"/kills"}
+                        className="z-50 -ml-[100%] box-border h-full w-full flex-none bg-gradient-to-t from-neutral-200 from-5% to-transparent transition-all duration-100 group-hover:from-background dark:from-neutral-900"
+                    >
+                        <div className="hidden group-hover:flex h-full w-full items-end justify-center pb-4">
+                            <h1 className="text-2xl font-semibold">
+                                Click to View Full Kill Feed
+                            </h1>
+                        </div>
+                    </Link>
+                </div>
             </div>
-          </Link>
-        </div>
-      </div>
-    </main>
-  );
+        </main>
+    );
 }

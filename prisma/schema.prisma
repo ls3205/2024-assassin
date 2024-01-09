@@ -6,24 +6,9 @@ generator client {
 }
 
 datasource db {
-    provider = "sqlite"
-    // NOTE: When using mysql or sqlserver, uncomment the @db.Text annotations in model Account below
-    // Further reading:
-    // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
-    // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
-    url      = env("DATABASE_URL")
-}
-
-model Post {
-    id        Int      @id @default(autoincrement())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-
-    createdBy   User   @relation(fields: [createdById], references: [id])
-    createdById String
-
-    @@index([name])
+    provider  = "postgresql"
+    url       = env("DATABASE_URL")
+    directUrl = env("DIRECT_URL")
 }
 
 // Necessary for Next auth
@@ -33,14 +18,15 @@ model Account {
     type              String
     provider          String
     providerAccountId String
-    refresh_token     String? // @db.Text
-    access_token      String? // @db.Text
+    refresh_token     String? @db.Text
+    access_token      String? @db.Text
     expires_at        Int?
     token_type        String?
     scope             String?
-    id_token          String? // @db.Text
+    id_token          String? @db.Text
     session_state     String?
-    user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
     @@unique([provider, providerAccountId])
 }
@@ -53,21 +39,69 @@ model Session {
     user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-model User {
-    id            String    @id @default(cuid())
-    name          String?
-    email         String?   @unique
-    emailVerified DateTime?
-    image         String?
-    accounts      Account[]
-    sessions      Session[]
-    posts         Post[]
+enum UserRole {
+    ADMIN
+    PLAYER
 }
 
-model VerificationToken {
-    identifier String
-    token      String   @unique
-    expires    DateTime
+enum Status {
+    ALIVE
+    DEAD
+}
 
-    @@unique([identifier, token])
+model User {
+    id       String  @id @default(cuid())
+    name     String
+    email    String
+    password String
+    image    String?
+
+    role   UserRole @default(PLAYER)
+    status Status   @default(ALIVE)
+
+    killedBy String?
+
+    accounts Account[]
+    sessions Session[]
+
+    kills Kill[]
+
+    targetPairing TargetPairing?
+    targetId      String?
+
+    @@unique([id, email])
+    @@unique([id, name])
+}
+
+model Kill {
+    id String @id @default(cuid())
+
+    User     User   @relation(fields: [userId, userName], references: [id, name])
+    userId   String
+    userName String
+
+    targetId   String
+    targetName String?
+
+    time DateTime @default(now())
+}
+
+model TargetPairing {
+    id String @id @default(cuid())
+
+    User   User   @relation(fields: [userId], references: [id])
+    userId String @unique
+
+    targetId String?
+
+    TargetList   TargetList @relation(fields: [targetListId], references: [id])
+    targetListId String
+
+    complete Boolean @default(false)
+}
+
+model TargetList {
+    id String @id @default(cuid())
+
+    pairings TargetPairing[]
 }
