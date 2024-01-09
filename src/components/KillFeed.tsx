@@ -10,7 +10,7 @@ import Link from "next/link";
 import { buttonVariants } from "./ui/Button";
 
 interface KillFeedProps {
-    mutable: boolean;
+    mutable?: boolean;
 }
 
 const KillFeed: React.FC<KillFeedProps> = ({ mutable = false }) => {
