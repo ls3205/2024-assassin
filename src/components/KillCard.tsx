@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 
 interface KillCardProps {
     kill: Kill;
-    mutable: boolean;
+    mutable?: boolean;
 }
 
 const KillCard: React.FC<KillCardProps> = ({ kill, mutable = false }) => {
