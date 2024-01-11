@@ -62,7 +62,7 @@ const PlayerDashboardCard: React.FC<PlayerDashboardCardProps> = ({
                         <h1 className="text-4xl font-bold">
                             {data.dbPlayer.name}
                         </h1>
-                        <div className="flex flex-col justify-center rounded-lg bg-background p-4">
+                        <div className="flex flex-col justify-center rounded-lg bg-background p-4 mt-4 lg:mr-4 w-auto">
                             <h1 className="text-4xl font-bold">
                                 {session.user.status === "ALIVE"
                                     ? "Target"
@@ -70,15 +70,11 @@ const PlayerDashboardCard: React.FC<PlayerDashboardCardProps> = ({
                             </h1>
                             {session.user.status === "ALIVE" ? (
                                 <UserInfoCard
-                                    user={data.dbPlayers.find((player) => {
-                                        player.id === data.dbPlayer.targetId;
-                                    })}
+                                    user={data.dbTarget ? data.dbTarget : undefined}
                                 />
                             ) : (
                                 <UserInfoCard
-                                    user={data.dbPlayers.find((player) => {
-                                        player.id === data.dbPlayer.killedBy;
-                                    })}
+                                    user={data.dbKiller ? data.dbKiller : undefined}
                                 />
                             )}
                         </div>
