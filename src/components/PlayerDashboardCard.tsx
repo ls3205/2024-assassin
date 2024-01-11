@@ -48,6 +48,12 @@ const PlayerDashboardCard: React.FC<PlayerDashboardCardProps> = ({
         );
     }
 
+    console.log(data?.dbPlayer.targetId)
+
+    console.log(data?.dbPlayers.find((player) => {
+        player.id === data.dbPlayer.targetId
+    }))
+
     return (
         <>
             {data ? (
@@ -65,13 +71,13 @@ const PlayerDashboardCard: React.FC<PlayerDashboardCardProps> = ({
                             {session.user.status === "ALIVE" ? (
                                 <UserInfoCard
                                     user={data.dbPlayers.find((player) => {
-                                        data.dbPlayer.targetId === player.id;
+                                        player.id === data.dbPlayer.targetId;
                                     })}
                                 />
                             ) : (
                                 <UserInfoCard
                                     user={data.dbPlayers.find((player) => {
-                                        data.dbPlayer.killedBy === player.id;
+                                        player.id === data.dbPlayer.killedBy;
                                     })}
                                 />
                             )}

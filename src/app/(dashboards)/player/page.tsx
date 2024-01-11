@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import PlayerCard from "@/components/PlayerCard";
+import PlayerDashboardCard from "@/components/PlayerDashboardCard";
 import { getAuthSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import React from "react";
@@ -12,7 +13,7 @@ const page: React.FC<pageProps> = async ({}) => {
     return session && session.user && session.user.id ? (
         <main className="flex min-h-screen flex-col items-center">
             <Navbar />
-            <PlayerCard playerID={session.user.id} session={session} />
+            <PlayerDashboardCard session={session} />
         </main>
     ) : (
         redirect("/")

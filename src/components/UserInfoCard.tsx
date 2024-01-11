@@ -15,12 +15,12 @@ const UserInfoCard: React.FC<UserInfoCardProps> = ({ user, className }) => {
             <div
             className={cn(
                 className,
-                "flex basis-1/2 flex-row justify-center align-middle",
+                "flex flex-row justify-center align-middle",
             )}
         >
             <AlertCircle />
                 <h1 className="text-destructive">
-                    
+                    没有User
                 </h1>
         </div>
         )
@@ -30,10 +30,10 @@ const UserInfoCard: React.FC<UserInfoCardProps> = ({ user, className }) => {
         <div
             className={cn(
                 className,
-                "flex basis-1/2 flex-row justify-center align-middle",
+                "flex flex-row justify-center align-middle",
             )}
         >
-            <h1 className="text-2xl font-semibold">{user?.name}</h1>
+            <h1 className="text-2xl font-semibold">{user.name}</h1>
         </div>
     );
 };
