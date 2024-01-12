@@ -36,15 +36,28 @@ export const PlayerDashboardCardGet = async (id: string) => {
 }
 
 export const CountdownClockCountdownGet = async () => {
-    const dbCountdown = await db.countdownDate.findFirst({
+    const dbTargetsCountdown = await db.countdownDate.findFirst({
         where: {
-            id: '0'
+            id: 'targets'
         }
     })
 
-    if (!dbCountdown) {
+    const dbSafezoneCountdown = await db.countdownDate.findFirst({
+        where: {
+            id: "safezone"
+        }
+    })
+
+    if (!dbTargetsCountdown) {
         throw new Error("Countdown not found!")
     }
 
-    return dbCountdown
+    if (!dbSafezoneCountdown) {
+        throw new Error("Countdown not found!")
+    }
+
+    return {
+        dbTargetsCountdown,
+        dbSafezoneCountdown
+    }
 }
