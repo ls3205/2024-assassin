@@ -109,8 +109,7 @@ const NavbarLinks: React.FC<NavbarLinksProps> = ({ session }) => {
                                         <NavigationMenuLink>
                                             <Link
                                                 className={cn(
-                                                    pathname ===
-                                                        "/admin/kills"
+                                                    pathname === "/admin/kills"
                                                         ? "text-primary"
                                                         : "text-foreground",
                                                     buttonVariants({
@@ -141,6 +140,19 @@ const NavbarLinks: React.FC<NavbarLinksProps> = ({ session }) => {
                             </Link>
                         </NavigationMenuItem>
                     ))}
+                <NavigationMenuItem>
+                    <Link
+                        className={cn(
+                            pathname === "/faq"
+                                ? "text-primary"
+                                : "text-foreground",
+                            buttonVariants({ variant: "ghost" }),
+                        )}
+                        href={"/faq"}
+                    >
+                        F.A.Q
+                    </Link>
+                </NavigationMenuItem>
             </NavigationMenuList>
         </NavigationMenu>
     );
