@@ -17,6 +17,11 @@ const CountdownClock: React.FC<CountdownClockProps> = ({
     const [timeLeftTargets, setTimeLeftTargets] = useState<string>();
     const [timeLeftSafezone, setTimeLeftSafezone] = useState<string>();
 
+    const [timeLeft, setTimeLeft] = useState<{
+        targets: string;
+        safezone: string;
+    }>();
+
     const { isLoading, error, data } = useQuery({
         queryKey: ["GetCountdown"],
         queryFn: async () => {
@@ -25,13 +30,27 @@ const CountdownClock: React.FC<CountdownClockProps> = ({
         },
     });
 
+    const getTimeString = (date: Date) => {
+        const timeLeftms = date.getTime() - new Date().getTime();
+
+        const totalSeconds = Math.floor(timeLeftms / 1000);
+        const totalMinutes = Math.floor(totalSeconds / 60);
+        const totalHours = Math.floor(totalMinutes / 60);
+        const totalDays = Math.floor(totalHours / 24);
+        const remSeconds = totalSeconds % 60;
+        const remMinutes = totalMinutes % 60;
+        const remHours = totalHours % 24;
+
+        return `${totalDays}:${remHours}:${remMinutes}:${remSeconds}`;
+    };
+
     useEffect(() => {
         const timer = setInterval(() => {
             if (data) {
-                setTimeLeftTargets(getTimeString(data.dbTargetsCountdown.date));
-                setTimeLeftSafezone(
-                    getTimeString(data.dbSafezoneCountdown.date),
-                );
+                setTimeLeft({
+                    targets: getTimeString(data.dbTargetsCountdown.date),
+                    safezone: getTimeString(data.dbSafezoneCountdown.date),
+                });
             }
         }, 1000);
         return () => {
@@ -51,22 +70,8 @@ const CountdownClock: React.FC<CountdownClockProps> = ({
         return;
     }
 
-    console.log(data.dbTargetsCountdown)
-    console.log(data.dbSafezoneCountdown)
-
-    const getTimeString = (date: Date) => {
-        const timeLeftms = date.getTime() - new Date().getTime();
-
-        const totalSeconds = Math.floor(timeLeftms / 1000);
-        const totalMinutes = Math.floor(totalSeconds / 60);
-        const totalHours = Math.floor(totalMinutes / 60);
-        const totalDays = Math.floor(totalHours / 24);
-        const remSeconds = totalSeconds % 60;
-        const remMinutes = totalMinutes % 60;
-        const remHours = totalHours % 24;
-
-        return `${totalDays}:${remHours}:${remMinutes}:${remSeconds}`;
-    };
+    console.log(data.dbTargetsCountdown);
+    console.log(data.dbSafezoneCountdown);
 
     return (
         <div className={cn(className, "rounded-lg p-4")}>
@@ -76,6 +81,13 @@ const CountdownClock: React.FC<CountdownClockProps> = ({
             </h2>
             <h2 className="m-4 text-2xl font-semibold">
                 New Safezone In: {timeLeftSafezone}
+            </h2>
+
+            <h2 className="m-4 text-2xl font-semibold">
+                New Targets In: {data.dbTargetsCountdown.date.getTime()}
+            </h2>
+            <h2 className="m-4 text-2xl font-semibold">
+                New Safezone In: {data.dbSafezoneCountdown.date.getTime()}
             </h2>
         </div>
     );
