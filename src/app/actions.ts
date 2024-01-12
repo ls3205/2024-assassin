@@ -12,7 +12,7 @@ export const PlayerDashboardCardGet = async (id: string) => {
     })
 
     if (!dbPlayer) {
-        throw new Error("Player not found")
+        throw new Error("Player not found!")
     }
 
     const dbTarget = dbPlayer.targetId ? await db.user.findFirst({
@@ -33,4 +33,18 @@ export const PlayerDashboardCardGet = async (id: string) => {
         dbKiller,
         dbPlayers
     }
+}
+
+export const CountdownClockCountdownGet = async () => {
+    const dbCountdown = await db.countdownDate.findFirst({
+        where: {
+            id: '0'
+        }
+    })
+
+    if (!dbCountdown) {
+        throw new Error("Countdown not found!")
+    }
+
+    return dbCountdown
 }

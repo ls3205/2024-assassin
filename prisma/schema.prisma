@@ -105,3 +105,9 @@ model TargetList {
 
     pairings TargetPairing[]
 }
+
+model CountdownDate {
+    id String @id @default(cuid())
+
+    date DateTime
+}
