@@ -1,3 +1,4 @@
+import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import Providers from "@/components/Providers";
 import "@/styles/globals.css";
@@ -25,6 +26,7 @@ export default function RootLayout({
         <html lang="en">
             <body className={`font-sans ${inter.variable}`}>
                 <Providers>{children}</Providers>
+                <Footer />
             </body>
         </html>
     );

@@ -10,20 +10,18 @@ export default function Home() {
     return (
         <main className="flex min-h-screen flex-col items-center">
             <Navbar />
-            <CountdownClock className="m-4 flex flex-col items-center justify-start bg-secondary w-[70%]" />
             <div className="m-4 flex h-96 w-[70%] flex-row items-center justify-center rounded-lg bg-secondary">
                 <div className="flex h-full w-1/2 flex-col items-center p-4">
-                    <h1>Current Safezone</h1>
-                    <div className="h-full w-full rounded-lg bg-primary"></div>
+                    <CountdownClock title="Assassin Countdowns" className="flex flex-col items-center justify-center bg-secondary" />
                 </div>
                 <div className="flex h-full w-1/2 flex-col items-center p-4">
-                    <h1>Next Safezone</h1>
+                    <h1>Current Safezone</h1>
                     <div className="h-full w-full rounded-lg bg-primary"></div>
                 </div>
             </div>
             <div className="flex w-[70%] flex-col items-center justify-center lg:flex-row lg:items-start">
                 <div className="group m-4 flex h-96 w-full flex-nowrap overflow-hidden rounded-lg bg-secondary lg:w-1/2">
-                    <div className="flex w-full h-full flex-col items-center">
+                    <div className="flex h-full w-full flex-col items-center">
                         <h1 className="my-2 w-full text-center text-2xl font-semibold">
                             Players
                         </h1>
@@ -33,7 +31,7 @@ export default function Home() {
                         href={"/players"}
                         className="z-50 -ml-[100%] box-border h-full w-full flex-none bg-gradient-to-t from-neutral-200 from-5% to-transparent transition-all duration-100 group-hover:from-background dark:from-neutral-900"
                     >
-                        <div className="hidden group-hover:flex h-full w-full items-end justify-center pb-4">
+                        <div className="hidden h-full w-full items-end justify-center pb-4 group-hover:flex">
                             <h1 className="text-2xl font-semibold">
                                 Click to View Full Player List
                             </h1>
@@ -41,7 +39,7 @@ export default function Home() {
                     </Link>
                 </div>
                 <div className="group m-4 flex h-96 w-full flex-nowrap overflow-hidden rounded-lg bg-secondary lg:w-1/2">
-                    <div className="flex w-full h-full flex-col items-center">
+                    <div className="flex h-full w-full flex-col items-center">
                         <h1 className="my-2 w-full text-center text-2xl font-semibold">
                             Kills
                         </h1>
@@ -51,7 +49,7 @@ export default function Home() {
                         href={"/kills"}
                         className="z-50 -ml-[100%] box-border h-full w-full flex-none bg-gradient-to-t from-neutral-200 from-5% to-transparent transition-all duration-100 group-hover:from-background dark:from-neutral-900"
                     >
-                        <div className="hidden group-hover:flex h-full w-full items-end justify-center pb-4">
+                        <div className="hidden h-full w-full items-end justify-center pb-4 group-hover:flex">
                             <h1 className="text-2xl font-semibold">
                                 Click to View Full Kill Feed
                             </h1>

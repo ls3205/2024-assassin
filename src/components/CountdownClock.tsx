@@ -14,13 +14,13 @@ const CountdownClock: React.FC<CountdownClockProps> = ({
     className,
     title,
 }) => {
-    const [timeLeftTargets, setTimeLeftTargets] = useState<string>();
-    const [timeLeftSafezone, setTimeLeftSafezone] = useState<string>();
-
     const [timeLeft, setTimeLeft] = useState<{
         targets: string;
         safezone: string;
-    }>();
+    }>({
+        targets: "Retrieving...",
+        safezone: "Retrieving...",
+    });
 
     const { isLoading, error, data } = useQuery({
         queryKey: ["GetCountdown"],
@@ -45,18 +45,18 @@ const CountdownClock: React.FC<CountdownClockProps> = ({
     };
 
     useEffect(() => {
-        const timer = setInterval(() => {
-            if (data) {
+        if (data) {
+            const timer = setInterval(() => {
                 setTimeLeft({
                     targets: getTimeString(data.dbTargetsCountdown.date),
                     safezone: getTimeString(data.dbSafezoneCountdown.date),
                 });
-            }
-        }, 1000);
-        return () => {
-            clearInterval(timer);
-        };
-    }, []);
+            }, 1000);
+            return () => {
+                clearInterval(timer);
+            };
+        }
+    }, [data]);
 
     if (isLoading) {
         return;
@@ -70,24 +70,14 @@ const CountdownClock: React.FC<CountdownClockProps> = ({
         return;
     }
 
-    console.log(data.dbTargetsCountdown);
-    console.log(data.dbSafezoneCountdown);
-
     return (
         <div className={cn(className, "rounded-lg p-4")}>
-            <h1 className="m-4 text-4xl font-bold">{title}</h1>
+            {title ? <h1 className="m-4 text-4xl font-bold">{title}</h1> : ""}
             <h2 className="m-4 text-2xl font-semibold">
-                New Targets In: {timeLeftTargets}
+                New Targets In: {timeLeft?.targets}
             </h2>
             <h2 className="m-4 text-2xl font-semibold">
-                New Safezone In: {timeLeftSafezone}
-            </h2>
-
-            <h2 className="m-4 text-2xl font-semibold">
-                New Targets In: {data.dbTargetsCountdown.date.getTime()}
-            </h2>
-            <h2 className="m-4 text-2xl font-semibold">
-                New Safezone In: {data.dbSafezoneCountdown.date.getTime()}
+                New Safezone In: {timeLeft?.safezone}
             </h2>
         </div>
     );
