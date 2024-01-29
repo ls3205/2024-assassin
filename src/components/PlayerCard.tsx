@@ -43,7 +43,7 @@ const PlayerCard: React.FC<PlayerCardProps> = ({ playerID, session }) => {
     return (
         <>
             {data ? (
-                <div className="m-4 flex h-[88vh] w-[95%] md:w-[70%] flex-col justify-center rounded-lg bg-secondary p-4 lg:flex-row lg:items-center">
+                <div className="m-4 flex h-[88vh] w-[95%] flex-col justify-center rounded-lg bg-secondary p-4 md:w-[70%] lg:flex-row lg:items-center">
                     <div className="flex h-full flex-col justify-center lg:w-1/2">
                         <h1 className="text-4xl font-bold">{data?.name}</h1>
                         <h2 className="text-2xl font-semibold">

@@ -109,8 +109,7 @@ const NavbarLinks: React.FC<NavbarLinksProps> = ({ session }) => {
                                         <NavigationMenuLink>
                                             <Link
                                                 className={cn(
-                                                    pathname ===
-                                                        "/admin/kills"
+                                                    pathname === "/admin/kills"
                                                         ? "text-primary"
                                                         : "text-foreground",
                                                     buttonVariants({
@@ -120,6 +119,23 @@ const NavbarLinks: React.FC<NavbarLinksProps> = ({ session }) => {
                                                 href={"/admin/kills"}
                                             >
                                                 Kill Manager
+                                            </Link>
+                                        </NavigationMenuLink>
+                                    </li>
+                                    <li>
+                                        <NavigationMenuLink>
+                                            <Link
+                                                className={cn(
+                                                    pathname === "/admin/countdowns"
+                                                        ? "text-primary"
+                                                        : "text-foreground",
+                                                    buttonVariants({
+                                                        variant: "ghost",
+                                                    }),
+                                                )}
+                                                href={"/admin/countdowns"}
+                                            >
+                                                Countdown Manager
                                             </Link>
                                         </NavigationMenuLink>
                                     </li>
