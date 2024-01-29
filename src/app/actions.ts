@@ -61,3 +61,63 @@ export const CountdownClockCountdownGet = async () => {
         dbSafezoneCountdown
     }
 }
+
+export const CountdownUpdaterCountdownGet = async () => {
+    const dbTargetsCountdown = await db.countdownDate.findFirst({
+        where: {
+            id: 'targets'
+        }
+    })
+
+    const dbSafezoneCountdown = await db.countdownDate.findFirst({
+        where: {
+            id: "safezone"
+        }
+    })
+
+    if (!dbTargetsCountdown) {
+        throw new Error("Countdown not found!")
+    }
+
+    if (!dbSafezoneCountdown) {
+        throw new Error("Countdown not found!")
+    }
+
+    return {
+        dbTargetsCountdown,
+        dbSafezoneCountdown
+    }
+}
+
+export const CountdownUpdaterCountdownUpdate = async (newTargetDate: Date, newZoneDate: Date) => {
+    const dbTargetsCountdown = await db.countdownDate.update({
+        where: {
+            id: 'targets'
+        },
+        data: {
+            date: newTargetDate
+        }
+    })
+
+    const dbSafezoneCountdown = await db.countdownDate.update({
+        where: {
+            id: "safezone"
+        },
+        data: {
+            date: newZoneDate
+        }
+    })
+
+    if (!dbTargetsCountdown) {
+        throw new Error("Countdown not found!")
+    }
+
+    if (!dbSafezoneCountdown) {
+        throw new Error("Countdown not found!")
+    }
+
+    return {
+        dbTargetsCountdown,
+        dbSafezoneCountdown
+    }
+}

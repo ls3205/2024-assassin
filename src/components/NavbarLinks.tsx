@@ -122,6 +122,23 @@ const NavbarLinks: React.FC<NavbarLinksProps> = ({ session }) => {
                                             </Link>
                                         </NavigationMenuLink>
                                     </li>
+                                    <li>
+                                        <NavigationMenuLink>
+                                            <Link
+                                                className={cn(
+                                                    pathname === "/admin/countdowns"
+                                                        ? "text-primary"
+                                                        : "text-foreground",
+                                                    buttonVariants({
+                                                        variant: "ghost",
+                                                    }),
+                                                )}
+                                                href={"/admin/countdowns"}
+                                            >
+                                                Countdown Manager
+                                            </Link>
+                                        </NavigationMenuLink>
+                                    </li>
                                 </ul>
                             </NavigationMenuContent>
                         </NavigationMenuItem>
@@ -140,19 +157,6 @@ const NavbarLinks: React.FC<NavbarLinksProps> = ({ session }) => {
                             </Link>
                         </NavigationMenuItem>
                     ))}
-                <NavigationMenuItem>
-                    <Link
-                        className={cn(
-                            pathname === "/faq"
-                                ? "text-primary"
-                                : "text-foreground",
-                            buttonVariants({ variant: "ghost" }),
-                        )}
-                        href={"/faq"}
-                    >
-                        F.A.Q
-                    </Link>
-                </NavigationMenuItem>
             </NavigationMenuList>
         </NavigationMenu>
     );
