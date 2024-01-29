@@ -4,7 +4,9 @@ import Navbar from "@/components/Navbar";
 import PlayerList from "@/components/PlayerList";
 import { buttonVariants } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 import Link from "next/link";
+import Safezone1 from "../../public/Safezone1.png";
 
 export default function Home() {
     return (
@@ -12,11 +14,23 @@ export default function Home() {
             <Navbar />
             <div className="m-4 flex h-96 w-[70%] flex-row items-center justify-center rounded-lg bg-secondary">
                 <div className="flex h-full w-1/2 flex-col items-center p-4">
-                    <CountdownClock title="Assassin Countdowns" className="flex flex-col items-center justify-center bg-secondary" />
+                    <CountdownClock
+                        title="Assassin Countdowns"
+                        className="flex flex-col items-center justify-center bg-secondary"
+                    />
                 </div>
                 <div className="flex h-full w-1/2 flex-col items-center p-4">
                     <h1>Current Safezone</h1>
-                    <div className="h-full w-full rounded-lg bg-primary"></div>
+                    <div className="flex h-full w-full flex-row items-center justify-center rounded-lg bg-primary">
+                        <Image
+                            src={Safezone1}
+                            alt="Safezone1"
+                            placeholder="blur"
+                            quality={100}
+                            className="rounded-lg"
+                            height={320}
+                        />
+                    </div>
                 </div>
             </div>
             <div className="flex w-[70%] flex-col items-center justify-center lg:flex-row lg:items-start">

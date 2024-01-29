@@ -14,7 +14,10 @@ const Footer: React.FC<FooterProps> = ({}) => {
             </div>
             <div className="mr-48 flex w-full flex-row justify-center">
                 <Button variant={"link"}>
-                    <Link href={"https://www.instagram.com/trevorassasin24/"}>
+                    <Link
+                        href={"https://www.instagram.com/trevorassasin24/"}
+                        target="_blank"
+                    >
                         2024 Assassin Instagram
                     </Link>
                 </Button>
@@ -23,6 +26,7 @@ const Footer: React.FC<FooterProps> = ({}) => {
                         href={
                             "https://docs.google.com/document/d/1PqD2Cj6xaiEBZGB0aMaNlYZdOv09gud3v2K3Puy1l9o/edit?usp=sharing"
                         }
+                        target="_blank"
                     >
                         2024 Assassin Rules Google Doc
                     </Link>
