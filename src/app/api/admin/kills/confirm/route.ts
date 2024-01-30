@@ -25,6 +25,19 @@ export async function PUT(req: NextRequest) {
             }
         })
 
+        if (!user) {
+            return
+        }
+
+        const updatedUser = await db.user.update({
+            where: {
+                id: kill.userId
+            },
+            data: {
+                numberKills: user?.numberKills + 1 
+            }
+        })
+
         const killedTarget = await db.user.update({
             where: {
                 id: kill.targetId

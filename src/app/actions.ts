@@ -121,3 +121,50 @@ export const CountdownUpdaterCountdownUpdate = async (newTargetDate: Date, newZo
         dbSafezoneCountdown
     }
 }
+
+export const KillLeaderboardGetPlayers = async () => {
+    const dbPlayers = await db.user.findMany({
+        where: {
+            role: "PLAYER"
+        }
+    })
+
+    const sortedPlayers = dbPlayers.sort((a, b) => {
+        if (a.numberKills < b.numberKills) {
+            return 1;
+        } else if (a.numberKills > b.numberKills) {
+            return -1;
+        } else {
+            return 0;
+        }
+    })
+
+    const dataReturn = <{ number: number, name: string, tie: boolean, numberKills: number }[]>[];
+
+    for (var i = 0; i < sortedPlayers.length; i++) {
+        if (!sortedPlayers[i]) {
+            continue
+        }
+
+        if (sortedPlayers[i]?.numberKills === 0) {
+            continue
+        }
+
+        if (i === 0) {
+            if (sortedPlayers[i]!.numberKills === sortedPlayers[i + 1]!.numberKills) {
+                dataReturn.push({ number: 1, name: sortedPlayers[i]!.name, tie: true, numberKills: sortedPlayers[i]!.numberKills })
+                continue
+            }
+        }
+
+        if (sortedPlayers[i]!.numberKills === sortedPlayers[i - 1]!.numberKills) {
+            dataReturn.push({ number: dataReturn[dataReturn.length - 1]!.number, name: sortedPlayers[i]!.name, tie: true, numberKills: sortedPlayers[i]!.numberKills })
+            continue
+        } else {
+            dataReturn.push({ number: dataReturn[i + 1]!.number, name: sortedPlayers[i]!.name, tie: false, numberKills: sortedPlayers[i]!.numberKills })
+            continue
+        }
+    }
+
+    return dataReturn;
+}

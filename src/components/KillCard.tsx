@@ -11,9 +11,10 @@ import { useRouter } from "next/navigation";
 interface KillCardProps {
     kill: Kill;
     mutable?: boolean;
+    className?: string;
 }
 
-const KillCard: React.FC<KillCardProps> = ({ kill, mutable = false }) => {
+const KillCard: React.FC<KillCardProps> = ({ kill, mutable = false, className }) => {
     const [toggled, setToggled] = useState(false);
     const { toast } = useToast();
     const router = useRouter();
@@ -86,7 +87,7 @@ const KillCard: React.FC<KillCardProps> = ({ kill, mutable = false }) => {
 
     return (
         <div
-            className="relative my-2 rounded-lg bg-secondary/80 p-4"
+            className={cn("relative my-2 rounded-lg bg-secondary/80 p-4", className)}
             onClick={() => mutable && !toggled && setToggled(true)}
         >
             <table>
