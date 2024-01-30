@@ -48,12 +48,6 @@ const PlayerDashboardCard: React.FC<PlayerDashboardCardProps> = ({
         );
     }
 
-    console.log(data?.dbPlayer.targetId)
-
-    console.log(data?.dbPlayers.find((player) => {
-        player.id === data.dbPlayer.targetId
-    }))
-
     return (
         <>
             {data ? (

@@ -65,6 +65,7 @@ model User {
     sessions Session[]
 
     kills Kill[]
+    numberKills Int @default(0)
 
     targetPairing TargetPairing?
     targetId      String?
