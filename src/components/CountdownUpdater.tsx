@@ -59,7 +59,7 @@ const CountdownUpdater: React.FC<CountdownUpdaterProps> = ({}) => {
     }
 
     return (
-        <div className="relative m-4 flex h-96 w-[70%] flex-row items-center justify-center rounded-lg bg-secondary p-4">
+        <div className="relative m-4 flex md:h-96 w-[70%] flex-col md:flex-row items-center justify-center rounded-lg bg-secondary p-4">
             <div>
                 <h1>Targets Countdown</h1>
                 <Calendar
