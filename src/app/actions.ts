@@ -139,9 +139,9 @@ export const KillLeaderboardGetPlayers = async () => {
         }
     })
 
-    const dataReturn = <{ number: number, name: string, tie: boolean, numberKills: number }[]>[];
+    const dataReturn = [] as { number: number, name: string, tie: boolean, numberKills: number }[];
 
-    for (var i = 0; i < sortedPlayers.length; i++) {
+    for (let i = 0; i < sortedPlayers.length; i++) {
         if (!sortedPlayers[i]) {
             continue
         }
