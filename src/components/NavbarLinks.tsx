@@ -24,7 +24,7 @@ const NavbarLinks: React.FC<NavbarLinksProps> = ({ session }) => {
 
     return (
         <NavigationMenu>
-            <NavigationMenuList>
+            <NavigationMenuList className="flex md:flex-row flex-col">
                 <NavigationMenuItem>
                     <Link
                         className={cn(

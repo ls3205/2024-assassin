@@ -12,14 +12,14 @@ export default function Home() {
     return (
         <main className="flex min-h-screen flex-col items-center">
             <Navbar />
-            <div className="m-4 flex h-96 w-[70%] flex-row items-center justify-center rounded-lg bg-secondary">
-                <div className="flex h-full w-1/2 flex-col items-center p-4">
+            <div className="m-4 flex w-[95%] md:h-96 md:w-[70%] flex-col md:flex-row items-center justify-center rounded-lg bg-secondary">
+                <div className="flex h-full w-[70%] md:w-1/2 flex-col items-center p-4">
                     <CountdownClock
                         title="Assassin Countdowns"
                         className="flex flex-col items-center justify-center bg-secondary"
                     />
                 </div>
-                <div className="flex h-full w-1/2 flex-col items-center p-4">
+                <div className="flex h-full w-[70%] md:w-1/2 flex-col items-center p-4">
                     <h1>Current Safezone</h1>
                     <div className="flex h-full w-full flex-row items-center justify-center rounded-lg bg-primary">
                         <Image
@@ -33,7 +33,7 @@ export default function Home() {
                     </div>
                 </div>
             </div>
-            <div className="flex w-[70%] flex-col items-center justify-center lg:flex-row lg:items-start">
+            <div className="flex w-[95%] md:w-[70%] flex-col items-center justify-center lg:flex-row lg:items-start">
                 <div className="group m-4 flex h-96 w-full flex-nowrap overflow-hidden rounded-lg bg-secondary lg:w-1/2">
                     <div className="flex h-full w-full flex-col items-center">
                         <h1 className="my-2 w-full text-center text-2xl font-semibold">
