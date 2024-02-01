@@ -46,7 +46,7 @@ const PlayerKillFeed: React.FC<PlayerKillFeedProps> = ({ playerID }) => {
                     <h1 className="text-destructive">没有Kills</h1>
                 </div>
             ) : (
-                <ul className="h-full w-full overflow-y-scroll ">
+                <ul className="h-full w-full overflow-y-scroll flex flex-col items-center">
                     {data?.map((kill) => {
                         return (
                             <li>
