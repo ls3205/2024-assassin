@@ -1,6 +1,7 @@
 "use server"
 
 import { db } from "@/lib/db"
+import { User } from "@prisma/client"
 
 export const PlayerDashboardCardGet = async (id: string) => {
     const dbPlayers = await db.user.findMany()
@@ -167,4 +168,61 @@ export const KillLeaderboardGetPlayers = async () => {
     }
 
     return dataReturn;
+}
+
+export const PlayerManagerGetPlayers = async () => {
+    const dbPlayers = await db.user.findMany({
+        where: {
+            role: "PLAYER"
+        }
+    })
+
+    dbPlayers.sort((a, b) => {
+        return a.name!.localeCompare(b.name!);
+    })
+
+    return dbPlayers
+}
+
+export const PlayerManagerKillPlayer = async (player: User) => {
+    const killedPlayer = await db.user.update({
+        where: {
+            id: player.id
+        },
+        data: {
+            killedBy: "Admin",
+            status: "DEAD"
+        }
+    })
+
+    const deletedPairing = await db.targetPairing.delete({
+        where: {
+            userId: player.id
+        }
+    })
+
+    const updatedPairings = await db.targetPairing.updateMany({
+        where: {
+            targetId: player.id
+        },
+        data: {
+            targetId: null
+        }
+    })
+
+    const createdKill = await db.kill.create({
+        data: {
+            userId: "0",
+            userName: "System",
+            targetId: player.id,
+            targetName: player.name
+        }
+    })
+
+    return {
+        killedPlayer,
+        deletedPairing,
+        updatedPairings,
+        createdKill
+    }
 }

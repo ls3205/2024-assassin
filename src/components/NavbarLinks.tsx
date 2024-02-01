@@ -126,6 +126,23 @@ const NavbarLinks: React.FC<NavbarLinksProps> = ({ session }) => {
                                         <NavigationMenuLink>
                                             <Link
                                                 className={cn(
+                                                    pathname === "/admin/players"
+                                                        ? "text-primary"
+                                                        : "text-foreground",
+                                                    buttonVariants({
+                                                        variant: "ghost",
+                                                    }),
+                                                )}
+                                                href={"/admin/players"}
+                                            >
+                                                Player Manager
+                                            </Link>
+                                        </NavigationMenuLink>
+                                    </li>
+                                    <li>
+                                        <NavigationMenuLink>
+                                            <Link
+                                                className={cn(
                                                     pathname === "/admin/countdowns"
                                                         ? "text-primary"
                                                         : "text-foreground",

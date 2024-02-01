@@ -9,6 +9,13 @@ export async function GET(req: NextRequest) {
         if (!reqPlayerID) {
             const kills = await db.kill.findMany()
 
+            kills.sort((a, b) => {
+                const aTime = new Date(a.time).getTime()
+                const bTime = new Date(b.time).getTime()
+
+                return bTime - aTime
+            })
+
             return NextResponse.json(kills, { status: 200 })
         }
 
@@ -16,6 +23,13 @@ export async function GET(req: NextRequest) {
             where: {
                 userId: reqPlayerID
             }
+        })
+
+        kills.sort((a, b) => {
+            const aTime = new Date(a.time).getTime()
+            const bTime = new Date(b.time).getTime()
+
+            return bTime - aTime
         })
 
         return NextResponse.json(kills, { status: 200 })
