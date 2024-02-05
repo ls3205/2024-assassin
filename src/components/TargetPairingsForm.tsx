@@ -180,9 +180,30 @@ const TargetPairingsForm: React.FC<TargetPairingsFormProps> = ({}) => {
         }
     };
 
+    const checkNotPicked = () => {
+        const picked: string[] = [];
+
+        const selectors = Array.from(
+            document.getElementsByClassName(
+                "targetSelector",
+            ) as HTMLCollectionOf<HTMLSelectElement>,
+        );
+
+        selectors.map((selector) => {
+            picked.push(selector.value);
+        });
+
+        data?.players.map((player) => {
+            if (!picked.includes(player.id)) {
+                console.log(player.name)
+            }
+        })
+    };
+
     const validate = () => {
         checkDuplicate();
         checkSelfPick();
+        checkNotPicked();
     };
 
     const handleSave = () => {
@@ -202,7 +223,8 @@ const TargetPairingsForm: React.FC<TargetPairingsFormProps> = ({}) => {
         queryFn: async () => {
             const pairings = (await axios.get("/api/admin/pairings"))
                 .data as Pairing[];
-            const players = (await axios.get("/api/players")).data as Player[];
+            const players = (await axios.get("/api/players?alive=true"))
+                .data as Player[];
 
             const data = {
                 pairings,
@@ -395,6 +417,14 @@ const TargetPairingsForm: React.FC<TargetPairingsFormProps> = ({}) => {
                 })}
             </table>
             <div className="flex w-full flex-row items-center justify-end space-x-4">
+            <Button
+                    onClick={() => {
+                        validate();
+                    }}
+                    className="bg-blue-400"
+                >
+                    Validate
+                </Button>
                 <Button
                     onClick={() => {
                         randomize();
