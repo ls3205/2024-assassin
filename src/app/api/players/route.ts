@@ -8,17 +8,30 @@ export async function GET(req: NextRequest) {
 
         const reqPlayerID = req.nextUrl.searchParams.get("player")
 
+        const aliveCheck = req.nextUrl.searchParams.get("alive")
+
         if (!reqPlayerID) {
             const players = []
+            let users
 
-            const users = await db.user.findMany({
-                where: {
-                    role: "PLAYER"
-                },
-                orderBy: {
-                    status: "desc"
-                }
-            })
+            if (aliveCheck === "true") {
+                users = await db.user.findMany({
+                    where: {
+                        role: "PLAYER",
+                        status: "ALIVE"
+                    }
+                })
+            } else {
+                users = await db.user.findMany({
+                    where: {
+                        role: "PLAYER"
+                    },
+                    orderBy: {
+                        status: "desc"
+                    }
+                })
+            }
+
 
             for (const user of users) {
                 players.push({
