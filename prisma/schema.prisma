@@ -67,6 +67,8 @@ model User {
     kills Kill[]
     numberKills Int @default(0)
 
+    bounties Bounty[]
+
     targetPairing TargetPairing?
     targetId      String?
 
@@ -111,4 +113,13 @@ model CountdownDate {
     id String @id @default(cuid())
 
     date DateTime
+}
+
+model Bounty {
+    id String @id @default(cuid())
+
+    User User @relation(fields: [userId], references: [id])
+    userId String @unique
+
+    creatorName String
 }
