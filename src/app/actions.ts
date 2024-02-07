@@ -252,3 +252,17 @@ export const BountyCardGetData = async (bounty: Bounty) => {
 
     return dbPlayer
 }
+
+export const BountyFormGetPlayers = async () => {
+    const dbPlayers = await db.user.findMany({
+        where: {
+            status: "ALIVE",
+            role: "PLAYER"
+        },
+        orderBy: {
+            name: "asc"
+        }
+    })
+
+    return dbPlayers
+}
