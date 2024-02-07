@@ -24,7 +24,7 @@ const Navbar: React.FC<NavbarProps> = async ({}) => {
                             <UserAccountNav user={session.user} />
                         ) : (
                             <Button variant={"secondary"}>
-                                <Link href={"sign-in"}>Sign In</Link>
+                                <Link href={"/sign-in"}>Sign In</Link>
                             </Button>
                         )}
                         <ThemeDropdown />
