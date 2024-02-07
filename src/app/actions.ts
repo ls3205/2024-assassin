@@ -1,7 +1,7 @@
 "use server"
 
 import { db } from "@/lib/db"
-import { User } from "@prisma/client"
+import { Bounty, User } from "@prisma/client"
 
 export const PlayerDashboardCardGet = async (id: string) => {
     const dbPlayers = await db.user.findMany()
@@ -225,4 +225,30 @@ export const PlayerManagerKillPlayer = async (player: User) => {
         updatedPairings,
         createdKill
     }
+}
+
+export const GetBounty = async (player?: User) => {
+    if (player) {
+        const dbBounties = db.bounty.findMany({
+            where: {
+                userId: player.id
+            }
+        })
+
+        return dbBounties
+    }
+
+    const dbBounties = db.bounty.findMany()
+
+    return dbBounties
+}
+
+export const BountyCardGetData = async (bounty: Bounty) => {
+    const dbPlayer = await db.user.findFirst({
+        where: {
+            id: bounty.userId
+        }
+    })
+
+    return dbPlayer
 }

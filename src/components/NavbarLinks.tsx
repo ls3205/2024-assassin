@@ -64,6 +64,19 @@ const NavbarLinks: React.FC<NavbarLinksProps> = ({ session }) => {
                         Kills
                     </Link>
                 </NavigationMenuItem>
+                <NavigationMenuItem>
+                    <Link
+                        className={cn(
+                            pathname === "/bounties"
+                                ? "text-primary"
+                                : "text-foreground",
+                            buttonVariants({ variant: "ghost" }),
+                        )}
+                        href={"/bounties"}
+                    >
+                        Bounties
+                    </Link>
+                </NavigationMenuItem>
                 {session?.user &&
                     (session.user.role === "ADMIN" ? (
                         <NavigationMenuItem>

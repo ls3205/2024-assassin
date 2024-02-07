@@ -122,4 +122,8 @@ model Bounty {
     userId String @unique
 
     creatorName String
+
+    created DateTime @default(now())
+
+    confirmed Boolean @default(false)
 }
