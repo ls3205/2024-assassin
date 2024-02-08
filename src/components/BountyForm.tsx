@@ -1,7 +1,7 @@
 "use client";
 
-import { BountyFormGetPlayers } from "@/app/actions";
-import { useQuery } from "@tanstack/react-query";
+import { BountyFormCreateBounty, BountyFormGetPlayers } from "@/app/actions";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { User } from "next-auth";
 import React from "react";
 import { z } from "zod";
@@ -25,12 +25,14 @@ import {
     SelectValue,
 } from "./ui/Select";
 import { Button } from "./ui/Button";
+import { useToast } from "./ui/use-toast";
+import { redirect } from "next/navigation";
 
 interface BountyFormProps {
     user: Pick<User, "name" | "email" | "image"> | undefined;
 }
 
-const formSchema = z.object({
+export const formSchema = z.object({
     Target: z.string(),
     CreatorName: z.string(),
     Amount: z.preprocess(
@@ -38,11 +40,14 @@ const formSchema = z.object({
         z
             .number()
             .positive("You cannot submit a negative bounty.")
+            .min(20, "Bounty must be at least $20")
             .max(100, "Bounty must be below $100"),
     ),
 });
 
 const BountyForm: React.FC<BountyFormProps> = ({ user }) => {
+    const { toast } = useToast();
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -52,8 +57,34 @@ const BountyForm: React.FC<BountyFormProps> = ({ user }) => {
         },
     });
 
+    const { mutate: createBounty } = useMutation({
+        mutationKey: ["BountyCardCreateBounty"],
+        mutationFn: async (bounty: z.infer<typeof formSchema>) => {
+            const data = await BountyFormCreateBounty(bounty);
+            return data;
+        },
+        onError: (err) => {
+            return toast({
+                title: "Error!",
+                description: `${err}`,
+                variant: "destructive",
+                duration: 2000,
+            });
+        },
+        onSuccess: (data) => {
+            toast({
+                title: `Created Bounty #${data.id}`,
+                description: `${data.userId}: ${data.amount}`,
+                variant: "success",
+                duration: 2000,
+            });
+
+            return redirect('/bounties')
+        }
+    });
+
     const onSubmit = (values: z.infer<typeof formSchema>) => {
-        console.log(values);
+        createBounty(values);
     };
 
     const { isLoading, error, data } = useQuery({

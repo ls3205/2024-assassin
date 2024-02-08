@@ -8,7 +8,7 @@ import BountyCard from "./BountyCard";
 
 interface BountyListProps {}
 
-const BountyList: React.FC<BountyListProps> = ({}) => {
+const BountyList: React.FC<BountyListProps> = () => {
     const { isLoading, error, data } = useQuery({
         queryKey: ["BountyListDataGet"],
         queryFn: async () => {
@@ -37,12 +37,12 @@ const BountyList: React.FC<BountyListProps> = ({}) => {
     return (
         <>
             {data.length === 0 ? (
-                <div className="mx-4 flex h-48 w-full flex-col items-center justify-center rounded-lg bg-secondary p-4">
+                <div className="my-4 flex h-48 w-full flex-col items-center justify-center rounded-lg bg-secondary p-4 lg:mx-4 lg:my-0">
                     <AlertCircle className="text-destructive" />
                     <h1 className="text-destructive">没有bounties</h1>
                 </div>
             ) : (
-                <div className=" mx-4 flex h-48 w-full flex-col items-center justify-center rounded-lg bg-secondary p-4">
+                <div className="min-h-48 my-4 flex w-full flex-col items-center justify-center rounded-lg bg-secondary p-4 lg:mx-4 lg:my-0">
                     <ul className="flex flex-row flex-wrap items-center justify-center">
                         {data.map((bounty) => {
                             return <BountyCard bounty={bounty} />;

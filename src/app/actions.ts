@@ -1,7 +1,9 @@
 "use server"
 
+import { formSchema } from "@/components/BountyForm"
 import { db } from "@/lib/db"
 import { Bounty, User } from "@prisma/client"
+import { z } from "zod"
 
 export const PlayerDashboardCardGet = async (id: string) => {
     const dbPlayers = await db.user.findMany()
@@ -257,6 +259,31 @@ export const BountyFormGetPlayers = async () => {
     const dbPlayers = await db.user.findMany({
         where: {
             status: "ALIVE",
+            role: "PLAYER"
+        },
+        orderBy: {
+            name: "asc"
+        }
+    })
+
+    return dbPlayers
+}
+
+export const BountyFormCreateBounty = async (bounty: z.infer<typeof formSchema>) => {
+    const dbBounty = await db.bounty.create({
+        data: {
+            creatorName: bounty.CreatorName,
+            userId: bounty.Target,
+            amount: bounty.Amount
+        }
+    })
+
+    return dbBounty
+}
+
+export const GetPlayers = async () => {
+    const dbPlayers = await db.user.findMany({
+        where: {
             role: "PLAYER"
         },
         orderBy: {

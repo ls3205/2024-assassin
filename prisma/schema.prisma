@@ -64,8 +64,8 @@ model User {
     accounts Account[]
     sessions Session[]
 
-    kills Kill[]
-    numberKills Int @default(0)
+    kills       Kill[]
+    numberKills Int    @default(0)
 
     bounties Bounty[]
 
@@ -118,12 +118,15 @@ model CountdownDate {
 model Bounty {
     id String @id @default(cuid())
 
-    User User @relation(fields: [userId], references: [id])
-    userId String @unique
+    User   User   @relation(fields: [userId], references: [id])
+    userId String 
+
+    amount Float
 
     creatorName String
 
     created DateTime @default(now())
 
     confirmed Boolean @default(false)
+    completed Boolean @default(false)
 }
