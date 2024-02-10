@@ -1,11 +1,12 @@
 "use client";
 
-import { BountyCardGetData } from "@/app/actions";
+import { BountyCardGetData, ConfirmBounty } from "@/app/actions";
 import { Bounty, User } from "@prisma/client";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import React from "react";
 import UserAvatar from "./UserAvatar";
 import axios from "axios";
+import { Button } from "./ui/Button";
 
 interface BountyCardProps {
     bounty: Bounty;
@@ -26,7 +27,15 @@ const BountyCard: React.FC<BountyCardProps> = ({ bounty, mutable = false }) => {
     const { isLoading, error, data } = useQuery({
         queryKey: [`BountyCardDataGet${bounty.id}`],
         queryFn: async () => {
-            const data = await BountyCardGetData(bounty)
+            const data = await BountyCardGetData(bounty);
+            return data;
+        },
+    });
+
+    const { mutate: ConfirmBountyMutation } = useMutation({
+        mutationKey: [`BountyCardConfirmBounty${bounty.id}`],
+        mutationFn: async (bounty: Bounty) => {
+            const data = await ConfirmBounty(bounty);
             return data;
         },
     });
@@ -62,7 +71,20 @@ const BountyCard: React.FC<BountyCardProps> = ({ bounty, mutable = false }) => {
                 <p className="italic text-red-500">Unconfirmed</p>
             )}
 
-            {mutable ? <div></div> : ""}
+            {mutable ? (
+                <div className="flex flex-col w-full">
+                    <div className="flex flex-row w-full justify-center">
+                        <Button className="m-2 bg-green-500">Confirm</Button>
+                        <Button className="m-2">Unconfirm</Button>
+                    </div>
+                    <div className="flex flex-row w-full justify-center">
+                        <Button className="m-2 bg-green-500">Complete</Button>
+                        <Button className="m-2">Delete</Button>
+                    </div>
+                </div>
+            ) : (
+                ""
+            )}
         </div>
     );
 };

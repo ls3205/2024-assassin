@@ -249,6 +249,55 @@ export const GetBounty = async (player?: User) => {
     return dbBounties
 }
 
+export const ConfirmBounty = async (bounty: Bounty) => {
+    const dbBounty = await db.bounty.update({
+        where: {
+            id: bounty.id
+        },
+        data: {
+            confirmed: true
+        }
+    })
+
+    return dbBounty
+}
+
+export const UnConfirmBounty = async (bounty: Bounty) => {
+    const dbBounty = await db.bounty.update({
+        where: {
+            id: bounty.id
+        },
+        data: {
+            confirmed: false
+        }
+    })
+
+    return dbBounty
+}
+
+export const CompleteBounty = async (bounty: Bounty) => {
+    const dbBounty = await db.bounty.update({
+        where: {
+            id: bounty.id
+        },
+        data: {
+            completed: true
+        }
+    })
+
+    return dbBounty
+}
+
+export const DeleteBounty = async (bounty: Bounty) => {
+    const dbBounty = await db.bounty.delete({
+        where: {
+            id: bounty.id
+        }
+    })
+
+    return dbBounty
+}
+
 export const BountyCardGetData = async (bounty: Bounty) => {
     const dbPlayer = await db.user.findFirst({
         where: {
