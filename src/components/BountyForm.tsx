@@ -26,7 +26,7 @@ import {
 } from "./ui/Select";
 import { Button } from "./ui/Button";
 import { useToast } from "./ui/use-toast";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 interface BountyFormProps {
     user: Pick<User, "name" | "email" | "image"> | undefined;
@@ -47,6 +47,7 @@ export const formSchema = z.object({
 
 const BountyForm: React.FC<BountyFormProps> = ({ user }) => {
     const { toast } = useToast();
+    const router = useRouter();
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -79,7 +80,7 @@ const BountyForm: React.FC<BountyFormProps> = ({ user }) => {
                 duration: 2000,
             });
 
-            return redirect('/bounties')
+            return router.push('/bounties')
         }
     });
 

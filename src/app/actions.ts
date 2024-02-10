@@ -240,7 +240,11 @@ export const GetBounty = async (player?: User) => {
         return dbBounties
     }
 
-    const dbBounties = db.bounty.findMany()
+    const dbBounties = db.bounty.findMany({
+        orderBy: {
+            userId: "asc"
+        }
+    })
 
     return dbBounties
 }
