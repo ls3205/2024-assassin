@@ -160,11 +160,14 @@ export const KillLeaderboardGetPlayers = async () => {
             }
         }
 
-        if (sortedPlayers[i]!.numberKills === sortedPlayers[i - 1]!.numberKills) {
+        if (sortedPlayers[i]?.numberKills === sortedPlayers[i - 1]?.numberKills) {
             dataReturn.push({ number: dataReturn[dataReturn.length - 1]!.number, name: sortedPlayers[i]!.name, tie: true, numberKills: sortedPlayers[i]!.numberKills })
             continue
+        } else if (sortedPlayers[i]?.numberKills === sortedPlayers[i + 1]?.numberKills){
+            dataReturn.push({ number: i + 1, name: sortedPlayers[i]!.name, tie: true, numberKills: sortedPlayers[i]!.numberKills })
+            continue
         } else {
-            dataReturn.push({ number: dataReturn[i + 1]!.number, name: sortedPlayers[i]!.name, tie: false, numberKills: sortedPlayers[i]!.numberKills })
+            dataReturn.push({ number: i + 1, name: sortedPlayers[i]!.name, tie: false, numberKills: sortedPlayers[i]!.numberKills })
             continue
         }
     }
