@@ -1,12 +1,18 @@
 "use client";
 
-import { BountyCardGetData, ConfirmBounty } from "@/app/actions";
-import { Bounty, User } from "@prisma/client";
+import {
+    BountyCardGetData,
+    CompleteBounty,
+    ConfirmBounty,
+    DeleteBounty,
+    UnConfirmBounty,
+} from "@/app/actions";
+import { Bounty } from "@prisma/client";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import React from "react";
+import React, { useState } from "react";
 import UserAvatar from "./UserAvatar";
-import axios from "axios";
 import { Button } from "./ui/Button";
+import { useToast } from "./ui/use-toast";
 
 interface BountyCardProps {
     bounty: Bounty;
@@ -14,6 +20,13 @@ interface BountyCardProps {
 }
 
 const BountyCard: React.FC<BountyCardProps> = ({ bounty, mutable = false }) => {
+    const { toast } = useToast();
+
+    const [isLoadingConfirm, setIsLoadingConfirm] = useState(false);
+    const [isLoadingUnConfirm, setIsLoadingUnConfirm] = useState(false);
+    const [isLoadingComplete, setIsLoadingComplete] = useState(false);
+    const [isLoadingDelete, setIsLoadingDelete] = useState(false);
+
     const fixDate = (date: string) => {
         date.replace(/[-]/g, "/");
         const newDate = new Date(Date.parse(date));
@@ -37,6 +50,94 @@ const BountyCard: React.FC<BountyCardProps> = ({ bounty, mutable = false }) => {
         mutationFn: async (bounty: Bounty) => {
             const data = await ConfirmBounty(bounty);
             return data;
+        },
+        onError: (err) => {
+            return toast({
+                title: "An Error Occurred!",
+                description: `${err}`,
+                variant: "destructive",
+                duration: 2000,
+            });
+        },
+        onSuccess: (data) => {
+            return toast({
+                title: "Confirmed Bounty!",
+                description: `Confirmed Bounty: ${data.userId}, ${data.amount}`,
+                variant: "success",
+                duration: 2000,
+            });
+        },
+    });
+
+    const { mutate: UnConfirmBountyMutation } = useMutation({
+        mutationKey: [`BountyCardUnConfirm${bounty.id}`],
+        mutationFn: async (bounty: Bounty) => {
+            const data = await UnConfirmBounty(bounty);
+            return data;
+        },
+        onError: (err) => {
+            return toast({
+                title: "An Error Occurred!",
+                description: `${err}`,
+                variant: "destructive",
+                duration: 2000,
+            });
+        },
+        onSuccess: (data) => {
+            return toast({
+                title: "UnConfirmed Bounty!",
+                description: `UnConfirmed Bounty: ${data.userId}, ${data.amount}`,
+                variant: "success",
+                duration: 2000,
+            });
+        },
+    });
+
+    const { mutate: CompleteBountyMutation } = useMutation({
+        mutationKey: [`BountyCardComplete${bounty.id}`],
+        mutationFn: async (bounty: Bounty) => {
+            const data = await CompleteBounty(bounty);
+            return data;
+        },
+        onError: (err) => {
+            return toast({
+                title: "An Error Occurred!",
+                description: `${err}`,
+                variant: "destructive",
+                duration: 2000,
+            });
+        },
+        onSuccess: (data) => {
+            return toast({
+                title: "Completed Bounty!",
+                description: `Completed Bounty: ${data.userId}, ${data.amount}`,
+                variant: "success",
+                duration: 2000,
+            });
+        },
+    });
+
+    const { mutate: DeleteBountyMutation } = useMutation({
+        mutationKey: [`BountyCardDelete${bounty.id}`],
+        mutationFn: async (bounty: Bounty) => {
+            const data = await DeleteBounty(bounty);
+            return data;
+        },
+        onError: (err) => {
+            return toast({
+                title: "An Error Occurred!",
+                description: `${err}`,
+                variant: "destructive",
+                duration: 2000,
+            });
+        },
+        onSuccess: (data) => {
+            return toast({
+                title: "Deleted Bounty!",
+                description: `Deleted Bounty: ${data.userId}, ${data.amount}`,
+                variant: "success",
+                duration: 2000,
+            });
         },
     });
 
@@ -66,20 +167,52 @@ const BountyCard: React.FC<BountyCardProps> = ({ bounty, mutable = false }) => {
             <p>{fixDate(bounty.created.toLocaleString())}</p>
 
             {bounty.confirmed ? (
-                <p className="text-green-500">Confirmed</p>
+                bounty.completed ? (
+                    <p className="font-bold text-green-500">Completed</p>
+                ) : (
+                    <p className="text-green-500">Confirmed</p>
+                )
             ) : (
                 <p className="italic text-red-500">Unconfirmed</p>
             )}
 
             {mutable ? (
-                <div className="flex flex-col w-full">
-                    <div className="flex flex-row w-full justify-center">
-                        <Button className="m-2 bg-green-500">Confirm</Button>
-                        <Button className="m-2">Unconfirm</Button>
+                <div className="flex w-full flex-col">
+                    <div className="flex w-full flex-row justify-center">
+                        <Button
+                            disabled={isLoadingConfirm}
+                            onClick={() => ConfirmBountyMutation(bounty)}
+                            className="m-2 bg-green-500"
+                            variant={"secondary"}
+                        >
+                            Confirm
+                        </Button>
+                        <Button
+                            disabled={isLoadingUnConfirm}
+                            onClick={() => UnConfirmBountyMutation(bounty)}
+                            className="m-2"
+                            variant={"secondary"}
+                        >
+                            Unconfirm
+                        </Button>
                     </div>
-                    <div className="flex flex-row w-full justify-center">
-                        <Button className="m-2 bg-green-500">Complete</Button>
-                        <Button className="m-2">Delete</Button>
+                    <div className="flex w-full flex-row justify-center">
+                        <Button
+                            disabled={isLoadingComplete}
+                            onClick={() => CompleteBountyMutation(bounty)}
+                            className="m-2 bg-green-500"
+                            variant={"secondary"}
+                        >
+                            Complete
+                        </Button>
+                        <Button
+                            disabled={isLoadingDelete}
+                            onClick={() => DeleteBountyMutation(bounty)}
+                            className="m-2"
+                            variant={"secondary"}
+                        >
+                            Delete
+                        </Button>
                     </div>
                 </div>
             ) : (

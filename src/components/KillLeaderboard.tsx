@@ -20,12 +20,12 @@ const KillLeaderboard: React.FC<KillLeaderboardProps> = ({}) => {
     }
 
     return (
-        <div className="relative m-4 flex md:h-[800px] md:w-1/2 flex-col items-center rounded-lg bg-secondary p-4">
-            <h1 className="font-bold text-2xl">Kill Leaderboard</h1>
+        <div className="relative m-4 flex flex-col items-center rounded-lg bg-secondary p-4 md:h-[800px] md:w-1/2 md:overflow-y-auto">
+            <h1 className="text-2xl font-bold">Kill Leaderboard</h1>
             <ul className="w-full p-4">
                 {data?.map((head, key) => {
                     return (
-                        <li className="relative flex w-full flex-row p-3 rounded-lg mb-2 bg-background/80">
+                        <li className="relative mb-2 flex w-full flex-row rounded-lg bg-background/80 p-3">
                             <h1 className="mr-5">
                                 {`${head.tie ? "T" : ""}${head.number}. ${
                                     head.name
