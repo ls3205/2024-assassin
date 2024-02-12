@@ -1,7 +1,9 @@
 "use server"
 
+import { formSchema } from "@/components/BountyForm"
 import { db } from "@/lib/db"
-import { User } from "@prisma/client"
+import { Bounty, User } from "@prisma/client"
+import { z } from "zod"
 
 export const PlayerDashboardCardGet = async (id: string) => {
     const dbPlayers = await db.user.findMany()
@@ -228,4 +230,122 @@ export const PlayerManagerKillPlayer = async (player: User) => {
         updatedPairings,
         createdKill
     }
+}
+
+export const GetBounty = async (player?: User) => {
+    if (player) {
+        const dbBounties = db.bounty.findMany({
+            where: {
+                userId: player.id
+            }
+        })
+
+        return dbBounties
+    }
+
+    const dbBounties = db.bounty.findMany({
+        orderBy: {
+            userId: "asc"
+        }
+    })
+
+    return dbBounties
+}
+
+export const ConfirmBounty = async (bounty: Bounty) => {
+    const dbBounty = await db.bounty.update({
+        where: {
+            id: bounty.id
+        },
+        data: {
+            confirmed: true
+        }
+    })
+
+    return dbBounty
+}
+
+export const UnConfirmBounty = async (bounty: Bounty) => {
+    const dbBounty = await db.bounty.update({
+        where: {
+            id: bounty.id
+        },
+        data: {
+            confirmed: false
+        }
+    })
+
+    return dbBounty
+}
+
+export const CompleteBounty = async (bounty: Bounty) => {
+    const dbBounty = await db.bounty.update({
+        where: {
+            id: bounty.id
+        },
+        data: {
+            completed: true
+        }
+    })
+
+    return dbBounty
+}
+
+export const DeleteBounty = async (bounty: Bounty) => {
+    const dbBounty = await db.bounty.delete({
+        where: {
+            id: bounty.id
+        }
+    })
+
+    return dbBounty
+}
+
+export const BountyCardGetData = async (bounty: Bounty) => {
+    const dbPlayer = await db.user.findFirst({
+        where: {
+            id: bounty.userId
+        }
+    })
+
+    return dbPlayer
+}
+
+export const BountyFormGetPlayers = async () => {
+    const dbPlayers = await db.user.findMany({
+        where: {
+            status: "ALIVE",
+            role: "PLAYER"
+        },
+        orderBy: {
+            name: "asc"
+        }
+    })
+
+    return dbPlayers
+}
+
+export const BountyFormCreateBounty = async (bounty: z.infer<typeof formSchema>) => {
+    const dbBounty = await db.bounty.create({
+        data: {
+            creatorName: bounty.CreatorName,
+            userId: bounty.Target,
+            amount: bounty.Amount
+        }
+    })
+
+    return dbBounty
+}
+
+export const GetPlayers = async () => {
+    const dbPlayers = await db.user.findMany({
+        where: {
+            role: "PLAYER"
+        },
+        orderBy: {
+            name: "asc"
+        }
+    })
+
+    return dbPlayers
 }

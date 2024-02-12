@@ -64,6 +64,19 @@ const NavbarLinks: React.FC<NavbarLinksProps> = ({ session }) => {
                         Kills
                     </Link>
                 </NavigationMenuItem>
+                <NavigationMenuItem>
+                    <Link
+                        className={cn(
+                            pathname === "/bounties"
+                                ? "text-primary"
+                                : "text-foreground",
+                            buttonVariants({ variant: "ghost" }),
+                        )}
+                        href={"/bounties"}
+                    >
+                        Bounties
+                    </Link>
+                </NavigationMenuItem>
                 {session?.user &&
                     (session.user.role === "ADMIN" ? (
                         <NavigationMenuItem>
@@ -136,6 +149,23 @@ const NavbarLinks: React.FC<NavbarLinksProps> = ({ session }) => {
                                                 href={"/admin/players"}
                                             >
                                                 Player Manager
+                                            </Link>
+                                        </NavigationMenuLink>
+                                    </li>
+                                    <li>
+                                        <NavigationMenuLink>
+                                            <Link
+                                                className={cn(
+                                                    pathname === "/admin/bounties"
+                                                        ? "text-primary"
+                                                        : "text-foreground",
+                                                    buttonVariants({
+                                                        variant: "ghost",
+                                                    }),
+                                                )}
+                                                href={"/admin/bounties"}
+                                            >
+                                                Bounty Manager
                                             </Link>
                                         </NavigationMenuLink>
                                     </li>

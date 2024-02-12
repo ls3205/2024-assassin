@@ -89,7 +89,7 @@ const DashboardTargetPairing: React.FC<DashboardTargetPairingProps> = ({
                 duration: 2000,
             });
 
-            return router.refresh();
+            return router.push('/admin');
         },
     });
 

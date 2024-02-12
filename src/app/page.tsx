@@ -6,7 +6,7 @@ import { buttonVariants } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
-import Safezone1 from "../../public/Safezone1.png";
+import Safezone from "../../public/Safezone2.png";
 
 export default function Home() {
     return (
@@ -23,8 +23,8 @@ export default function Home() {
                     <h1>Current Safezone</h1>
                     <div className="flex h-full w-full flex-row items-center justify-center rounded-lg bg-primary">
                         <Image
-                            src={Safezone1}
-                            alt="Safezone1"
+                            src={Safezone}
+                            alt="Safezone"
                             placeholder="blur"
                             quality={100}
                             className="rounded-lg"

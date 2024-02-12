@@ -15,7 +15,7 @@ const Footer: React.FC<FooterProps> = ({}) => {
             <div className="mr-4 md:mr-48 flex w-full flex-col md:flex-row justify-center">
                 <Button variant={"link"}>
                     <Link
-                        href={"https://www.instagram.com/trevorassasin24/"}
+                        href={"https://www.instagram.com/trevorassassin24/"}
                         target="_blank"
                     >
                         2024 Assassin Instagram
