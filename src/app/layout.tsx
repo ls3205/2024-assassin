@@ -6,6 +6,8 @@ import "@/styles/globals.css";
 import { Inter } from "next/font/google";
 import Script from "next/script";
 
+import { SpeedInsights } from "@vercel/speed-insights/next"
+
 const inter = Inter({
     subsets: ["latin"],
     variable: "--font-sans",
@@ -25,6 +27,7 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body className={`font-sans ${inter.variable}`}>
+                <SpeedInsights />
                 <Providers>{children}</Providers>
                 <Footer />
             </body>
