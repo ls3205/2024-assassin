@@ -3,7 +3,7 @@
 import { ArrowRightIcon } from "lucide-react";
 import React, { useState } from "react";
 import { Button } from "./ui/Button";
-import { useMutation } from "@tanstack/react-query";
+import { QueryObserverResult, useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { cn } from "@/lib/utils";
 import { useToast } from "./ui/use-toast";
@@ -16,6 +16,16 @@ interface DashboardTargetPairingProps {
     targetName?: string;
     status?: boolean;
     confirmable?: boolean;
+
+    refetchFn?: () => Promise<
+        QueryObserverResult<
+            {
+                pairings: Pairing[];
+                players: Player[];
+            },
+            Error
+        >
+    >;
 }
 
 const DashboardTargetPairing: React.FC<DashboardTargetPairingProps> = ({
@@ -25,6 +35,7 @@ const DashboardTargetPairing: React.FC<DashboardTargetPairingProps> = ({
     targetName,
     status,
     confirmable = false,
+    refetchFn,
 }) => {
     const [toggled, setToggled] = useState(false);
 
@@ -89,7 +100,11 @@ const DashboardTargetPairing: React.FC<DashboardTargetPairingProps> = ({
                 duration: 2000,
             });
 
-            return router.push('/admin');
+            if (refetchFn) {
+                return refetchFn()
+            } else {
+                return
+            }
         },
     });
 

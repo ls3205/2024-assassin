@@ -27,6 +27,7 @@ import {
 import { Button } from "./ui/Button";
 import { useToast } from "./ui/use-toast";
 import { useRouter } from "next/navigation";
+import { Loader2 } from "lucide-react";
 
 interface BountyFormProps {
     user: Pick<User, "name" | "email" | "image"> | undefined;
@@ -80,8 +81,8 @@ const BountyForm: React.FC<BountyFormProps> = ({ user }) => {
                 duration: 2000,
             });
 
-            return router.push('/bounties')
-        }
+            return router.push("/bounties");
+        },
     });
 
     const onSubmit = (values: z.infer<typeof formSchema>) => {
@@ -97,7 +98,11 @@ const BountyForm: React.FC<BountyFormProps> = ({ user }) => {
     });
 
     if (isLoading) {
-        return <div></div>;
+        return (
+            <div className="m-4 flex h-96 w-80 flex-col items-center justify-center rounded-lg bg-secondary/80 p-4">
+                <Loader2 className="text-primary" />
+            </div>
+        );
     }
 
     if (error || !data) {

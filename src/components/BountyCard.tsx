@@ -8,18 +8,29 @@ import {
     UnConfirmBounty,
 } from "@/app/actions";
 import { Bounty } from "@prisma/client";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import {
+    QueryObserverResult,
+    useMutation,
+    useQuery,
+} from "@tanstack/react-query";
 import React, { useState } from "react";
 import UserAvatar from "./UserAvatar";
 import { Button } from "./ui/Button";
 import { useToast } from "./ui/use-toast";
+import { Skeleton } from "./ui/Skeleton";
+import { AvatarFallback } from "./ui/Avatar";
 
 interface BountyCardProps {
     bounty: Bounty;
     mutable?: boolean;
+    refetchFn?: () => Promise<QueryObserverResult<Bounty[], Error>>;
 }
 
-const BountyCard: React.FC<BountyCardProps> = ({ bounty, mutable = false }) => {
+const BountyCard: React.FC<BountyCardProps> = ({
+    bounty,
+    mutable = false,
+    refetchFn,
+}) => {
     const { toast } = useToast();
 
     const [isLoadingConfirm, setIsLoadingConfirm] = useState(false);
@@ -60,12 +71,18 @@ const BountyCard: React.FC<BountyCardProps> = ({ bounty, mutable = false }) => {
             });
         },
         onSuccess: (data) => {
-            return toast({
+            toast({
                 title: "Confirmed Bounty!",
                 description: `Confirmed Bounty: ${data.userId}, ${data.amount}`,
                 variant: "success",
                 duration: 2000,
             });
+
+            if (refetchFn) {
+                return refetchFn();
+            } else {
+                return;
+            }
         },
     });
 
@@ -84,12 +101,18 @@ const BountyCard: React.FC<BountyCardProps> = ({ bounty, mutable = false }) => {
             });
         },
         onSuccess: (data) => {
-            return toast({
+            toast({
                 title: "UnConfirmed Bounty!",
                 description: `UnConfirmed Bounty: ${data.userId}, ${data.amount}`,
                 variant: "success",
                 duration: 2000,
             });
+
+            if (refetchFn) {
+                return refetchFn();
+            } else {
+                return;
+            }
         },
     });
 
@@ -108,12 +131,18 @@ const BountyCard: React.FC<BountyCardProps> = ({ bounty, mutable = false }) => {
             });
         },
         onSuccess: (data) => {
-            return toast({
+            toast({
                 title: "Completed Bounty!",
                 description: `Completed Bounty: ${data.userId}, ${data.amount}`,
                 variant: "success",
                 duration: 2000,
             });
+
+            if (refetchFn) {
+                return refetchFn();
+            } else {
+                return;
+            }
         },
     });
 
@@ -132,17 +161,32 @@ const BountyCard: React.FC<BountyCardProps> = ({ bounty, mutable = false }) => {
             });
         },
         onSuccess: (data) => {
-            return toast({
+            toast({
                 title: "Deleted Bounty!",
                 description: `Deleted Bounty: ${data.userId}, ${data.amount}`,
                 variant: "success",
                 duration: 2000,
             });
+
+            if (refetchFn) {
+                return refetchFn();
+            } else {
+                return;
+            }
         },
     });
 
     if (isLoading) {
-        return <div></div>;
+        return (
+            <div className="m-4 flex h-80 w-60 flex-col items-center justify-center space-y-1 rounded-lg bg-background p-4 text-center">
+                <Skeleton className="h-8 w-44" />
+                <Skeleton className="my-2 h-28 w-28 rounded-lg" />
+                <Skeleton className="h-6 w-16" />
+                <Skeleton className="h-6 w-44" />
+                <Skeleton className="h-6 w-36" />
+                <Skeleton className="h-6 w-24" />
+            </div>
+        );
     }
 
     if (error || !data) {
@@ -150,8 +194,10 @@ const BountyCard: React.FC<BountyCardProps> = ({ bounty, mutable = false }) => {
     }
 
     return (
-        <div className="m-4 flex flex-col justify-center rounded-lg bg-background p-4 text-center align-middle">
-            <h1 className="text-2xl font-bold">{data.name}</h1>
+        <div className="m-4 flex min-h-80 w-60 flex-col items-center justify-center rounded-lg bg-background p-4">
+            <h1 className="max-w-full overflow-hidden text-ellipsis whitespace-nowrap text-2xl font-bold">
+                {data.name}
+            </h1>
 
             <UserAvatar
                 className="mx-auto my-2 block h-28 w-28 rounded-lg"
@@ -162,7 +208,7 @@ const BountyCard: React.FC<BountyCardProps> = ({ bounty, mutable = false }) => {
                 ${bounty.amount.toFixed(2)}
             </h1>
 
-            <h3>{`Created By: ${bounty.creatorName}`}</h3>
+            <h3 className="max-w-full overflow-hidden text-ellipsis whitespace-nowrap">{`Created By: ${bounty.creatorName}`}</h3>
 
             <p>{fixDate(bounty.created.toLocaleString())}</p>
 

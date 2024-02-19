@@ -14,7 +14,7 @@ import DashboardTargetPairing from "./DashboardTargetPairing";
 interface TargetPairingsProps {}
 
 const TargetPairings: React.FC<TargetPairingsProps> = ({}) => {
-    const { isLoading, error, data } = useQuery({
+    const { isLoading, error, data, refetch } = useQuery({
         queryKey: ["TargetPairings"],
         queryFn: async () => {
             const pairings = (await axios.get("/api/admin/pairings"))

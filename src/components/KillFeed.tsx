@@ -20,7 +20,7 @@ const KillFeed: React.FC<KillFeedProps> = ({
     className,
     noTitle = false,
 }) => {
-    const { isLoading, error, data } = useQuery({
+    const { isLoading, error, data, refetch } = useQuery({
         queryKey: ["Kills"],
         queryFn: async () => {
             const { data } = await axios.get("/api/kills");
@@ -30,7 +30,7 @@ const KillFeed: React.FC<KillFeedProps> = ({
 
     if (isLoading) {
         return (
-            <div className="m-4 flex h-48 w-1/2 flex-col items-center justify-center rounded-lg bg-secondary p-4">
+            <div className="m-4 flex h-48 w-1/2 flex-col items-center justify-center md:h-[400px] rounded-lg bg-secondary p-4">
                 <Loader2 className="animate-spin text-primary" />
             </div>
         );

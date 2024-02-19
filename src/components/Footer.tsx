@@ -7,12 +7,12 @@ interface FooterProps {}
 const Footer: React.FC<FooterProps> = ({}) => {
     return (
         <div className="relative mt-12 flex h-48 w-full flex-row items-center bg-secondary p-6">
-            <div className="mr-4 md:ml-48">
-                <h1 className="text-4xl font-bold">Trevor</h1>
-                <h1 className="text-4xl font-bold">Senior</h1>
-                <h1 className="text-4xl font-bold">Assassin</h1>
+            <div className="mr-4 md:ml-24 lg:ml-48">
+                <h1 className="text-3xl md:text-4xl font-bold">Trevor</h1>
+                <h1 className="text-3xl md:text-4xl font-bold">Senior</h1>
+                <h1 className="text-3xl md:text-4xl font-bold">Assassin</h1>
             </div>
-            <div className="mr-4 md:mr-48 flex w-full flex-col md:flex-row justify-center">
+            <div className="mr-4 md:mr-36 lg:mr-48 flex w-full flex-col md:flex-row justify-center">
                 <Button variant={"link"}>
                     <Link
                         href={"https://www.instagram.com/trevorassassin24/"}

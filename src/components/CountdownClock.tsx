@@ -3,6 +3,7 @@
 import { CountdownClockCountdownGet } from "@/app/actions";
 import { cn } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
+import { AlertCircle, Loader2 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 
 interface CountdownClockProps {
@@ -36,10 +37,20 @@ const CountdownClock: React.FC<CountdownClockProps> = ({
         const totalSeconds = Math.floor(timeLeftms / 1000);
         const totalMinutes = Math.floor(totalSeconds / 60);
         const totalHours = Math.floor(totalMinutes / 60);
-        const totalDays = Math.floor(totalHours / 24) < 10 ? `0${Math.floor(totalHours / 24)}` : Math.floor(totalHours / 24);
-        const remSeconds = totalSeconds % 60 < 10 ? `0${totalSeconds % 60}` : totalSeconds % 60;
-        const remMinutes = totalMinutes % 60 < 10 ? `0${totalMinutes % 60}` : totalMinutes % 60;
-        const remHours = totalHours % 24 < 10 ? `0${totalHours % 24}` : totalHours % 24;
+        const totalDays =
+            Math.floor(totalHours / 24) < 10
+                ? `0${Math.floor(totalHours / 24)}`
+                : Math.floor(totalHours / 24);
+        const remSeconds =
+            totalSeconds % 60 < 10
+                ? `0${totalSeconds % 60}`
+                : totalSeconds % 60;
+        const remMinutes =
+            totalMinutes % 60 < 10
+                ? `0${totalMinutes % 60}`
+                : totalMinutes % 60;
+        const remHours =
+            totalHours % 24 < 10 ? `0${totalHours % 24}` : totalHours % 24;
 
         return `${totalDays}:${remHours}:${remMinutes}:${remSeconds}`;
     };
@@ -59,15 +70,29 @@ const CountdownClock: React.FC<CountdownClockProps> = ({
     }, [data]);
 
     if (isLoading) {
-        return;
+        return (
+            <div className={cn(className, "h-full rounded-lg p-4")}>
+                <Loader2 className="animate-spin text-primary" />
+            </div>
+        );
     }
 
     if (error) {
-        return;
+        return (
+            <div className={cn(className, "h-full rounded-lg p-4")}>
+                <AlertCircle />
+                <h1 className="text-destructive">没有countdown</h1>
+            </div>
+        );
     }
 
     if (!data) {
-        return;
+        return (
+            <div className={cn(className, "h-full rounded-lg p-4")}>
+                <AlertCircle />
+                <h1 className="text-destructive">没有countdown</h1>
+            </div>
+        );
     }
 
     return (

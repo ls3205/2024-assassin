@@ -16,7 +16,7 @@ const BountyList: React.FC<BountyListProps> = ({
     mutable = false,
     className,
 }) => {
-    const { isLoading, error, data } = useQuery({
+    const { isLoading, error, data, refetch } = useQuery({
         queryKey: ["BountyListDataGet"],
         queryFn: async () => {
             const data = await GetBounty();
@@ -28,7 +28,7 @@ const BountyList: React.FC<BountyListProps> = ({
         return (
             <div
                 className={cn(
-                    "m-4 flex h-48 w-auto flex-col items-center justify-center rounded-lg bg-secondary p-4",
+                    "m-4 flex h-48 w-full flex-col items-center justify-center rounded-lg bg-secondary p-4",
                     className,
                 )}
             >
@@ -41,7 +41,7 @@ const BountyList: React.FC<BountyListProps> = ({
         return (
             <div
                 className={cn(
-                    "m-4 flex h-48 w-auto flex-col items-center justify-center rounded-lg bg-secondary p-4",
+                    "m-4 flex h-48 w-full flex-col items-center justify-center rounded-lg bg-secondary p-4",
                     className,
                 )}
             >
@@ -73,7 +73,7 @@ const BountyList: React.FC<BountyListProps> = ({
                     <ul className="flex flex-row flex-wrap items-center justify-center">
                         {data.map((bounty) => {
                             return (
-                                <BountyCard bounty={bounty} mutable={mutable} />
+                                <BountyCard bounty={bounty} mutable={mutable} refetchFn={refetch} />
                             );
                         })}
                     </ul>

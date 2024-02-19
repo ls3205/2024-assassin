@@ -25,16 +25,18 @@ const PlayerManager: React.FC<PlayerManagerProps> = ({}) => {
             return data;
         },
         onSuccess: (data) => {
-            return toast({
+            toast({
                 title: "Killed Player",
                 description: `System killed ${data.killedPlayer.name}`,
                 variant: "success",
                 duration: 2000
             })
+
+            return refetch()
         }
     });
 
-    const { isLoading, error, data } = useQuery({
+    const { isLoading, error, data, refetch } = useQuery({
         queryKey: ["Players"],
         queryFn: async () => {
             const data = await PlayerManagerGetPlayers();
