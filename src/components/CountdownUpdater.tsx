@@ -30,16 +30,18 @@ const CountdownUpdater: React.FC<CountdownUpdaterProps> = ({}) => {
             }
         },
         onSuccess: (data) => {
-            return toast({
+            toast({
                 title: "Successfully Updated Countdown Date(s)",
                 description: `Targets: ${data?.dbTargetsCountdown.date.getDate()}, Zone: ${data?.dbSafezoneCountdown.date.getDate()}`,
                 variant: "success",
                 duration: 2000,
             });
+
+            return refetch
         },
     });
 
-    const { isLoading, error, data, isSuccess } = useQuery({
+    const { isLoading, error, data, isSuccess, refetch } = useQuery({
         queryKey: ["CountdownUpdaterGetDates"],
         queryFn: async () => {
             const data = await CountdownUpdaterCountdownGet();
