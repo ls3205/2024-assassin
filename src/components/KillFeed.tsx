@@ -30,7 +30,7 @@ const KillFeed: React.FC<KillFeedProps> = ({
 
     if (isLoading) {
         return (
-            <div className="m-4 flex h-48 w-1/2 flex-col items-center justify-center rounded-lg bg-secondary p-4">
+            <div className="m-4 flex h-48 w-1/2 flex-col items-center justify-center md:h-[400px] rounded-lg bg-secondary p-4">
                 <Loader2 className="animate-spin text-primary" />
             </div>
         );

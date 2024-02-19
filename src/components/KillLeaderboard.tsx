@@ -2,6 +2,7 @@
 
 import { KillLeaderboardGetPlayers } from "@/app/actions";
 import { useQuery } from "@tanstack/react-query";
+import { Loader2 } from "lucide-react";
 import React from "react";
 
 interface KillLeaderboardProps {}
@@ -16,7 +17,11 @@ const KillLeaderboard: React.FC<KillLeaderboardProps> = ({}) => {
     });
 
     if (isLoading) {
-        return <div></div>;
+        return (
+            <div className="relative m-4 flex flex-col justify-center items-center rounded-lg bg-secondary p-4 md:h-[400px] md:w-1/2 md:overflow-y-auto">
+                <Loader2 className="text-primary" />
+            </div>
+        );
     }
 
     return (

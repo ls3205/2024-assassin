@@ -28,7 +28,7 @@ const BountyList: React.FC<BountyListProps> = ({
         return (
             <div
                 className={cn(
-                    "m-4 flex h-48 w-auto flex-col items-center justify-center rounded-lg bg-secondary p-4",
+                    "m-4 flex h-48 w-full flex-col items-center justify-center rounded-lg bg-secondary p-4",
                     className,
                 )}
             >
@@ -41,7 +41,7 @@ const BountyList: React.FC<BountyListProps> = ({
         return (
             <div
                 className={cn(
-                    "m-4 flex h-48 w-auto flex-col items-center justify-center rounded-lg bg-secondary p-4",
+                    "m-4 flex h-48 w-full flex-col items-center justify-center rounded-lg bg-secondary p-4",
                     className,
                 )}
             >
