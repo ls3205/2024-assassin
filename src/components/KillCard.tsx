@@ -4,7 +4,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { Button, buttonVariants } from "./ui/Button";
 import { useToast } from "./ui/use-toast";
-import { useMutation } from "@tanstack/react-query";
+import { QueryObserverResult, useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 
@@ -12,9 +12,15 @@ interface KillCardProps {
     kill: Kill;
     mutable?: boolean;
     className?: string;
+    refetchFn?: () => Promise<QueryObserverResult<Kill[], Error>>;
 }
 
-const KillCard: React.FC<KillCardProps> = ({ kill, mutable = false, className }) => {
+const KillCard: React.FC<KillCardProps> = ({
+    kill,
+    mutable = false,
+    className,
+    refetchFn,
+}) => {
     const [toggled, setToggled] = useState(false);
     const { toast } = useToast();
     const router = useRouter();
@@ -76,7 +82,11 @@ const KillCard: React.FC<KillCardProps> = ({ kill, mutable = false, className })
                 duration: 2000,
             });
 
-            return router.refresh();
+            if (refetchFn) {
+                return refetchFn()
+            } else {
+                return
+            }
         },
     });
 
@@ -87,7 +97,10 @@ const KillCard: React.FC<KillCardProps> = ({ kill, mutable = false, className })
 
     return (
         <div
-            className={cn("relative my-2 rounded-lg bg-secondary/80 p-4", className)}
+            className={cn(
+                "relative my-2 rounded-lg bg-secondary/80 p-4",
+                className,
+            )}
             onClick={() => mutable && !toggled && setToggled(true)}
         >
             <table>
@@ -122,7 +135,7 @@ const KillCard: React.FC<KillCardProps> = ({ kill, mutable = false, className })
                         )}
                     >
                         {mutable ? (
-                            kill.userName
+                            kill.targetName
                         ) : (
                             <Link href={`/players/${kill.targetId}`}>
                                 {kill.targetName}

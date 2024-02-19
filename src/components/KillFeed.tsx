@@ -20,7 +20,7 @@ const KillFeed: React.FC<KillFeedProps> = ({
     className,
     noTitle = false,
 }) => {
-    const { isLoading, error, data } = useQuery({
+    const { isLoading, error, data, refetch } = useQuery({
         queryKey: ["Kills"],
         queryFn: async () => {
             const { data } = await axios.get("/api/kills");

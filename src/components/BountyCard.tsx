@@ -8,7 +8,7 @@ import {
     UnConfirmBounty,
 } from "@/app/actions";
 import { Bounty } from "@prisma/client";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { QueryObserverResult, useMutation, useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
 import UserAvatar from "./UserAvatar";
 import { Button } from "./ui/Button";
@@ -17,9 +17,10 @@ import { useToast } from "./ui/use-toast";
 interface BountyCardProps {
     bounty: Bounty;
     mutable?: boolean;
+    refetchFn?: () => Promise<QueryObserverResult<Bounty[], Error>>
 }
 
-const BountyCard: React.FC<BountyCardProps> = ({ bounty, mutable = false }) => {
+const BountyCard: React.FC<BountyCardProps> = ({ bounty, mutable = false, refetchFn }) => {
     const { toast } = useToast();
 
     const [isLoadingConfirm, setIsLoadingConfirm] = useState(false);
@@ -60,12 +61,18 @@ const BountyCard: React.FC<BountyCardProps> = ({ bounty, mutable = false }) => {
             });
         },
         onSuccess: (data) => {
-            return toast({
+            toast({
                 title: "Confirmed Bounty!",
                 description: `Confirmed Bounty: ${data.userId}, ${data.amount}`,
                 variant: "success",
                 duration: 2000,
             });
+
+            if (refetchFn) {
+                return refetchFn()
+            } else {
+                return
+            }
         },
     });
 
@@ -84,12 +91,18 @@ const BountyCard: React.FC<BountyCardProps> = ({ bounty, mutable = false }) => {
             });
         },
         onSuccess: (data) => {
-            return toast({
+            toast({
                 title: "UnConfirmed Bounty!",
                 description: `UnConfirmed Bounty: ${data.userId}, ${data.amount}`,
                 variant: "success",
                 duration: 2000,
             });
+
+            if (refetchFn) {
+                return refetchFn()
+            } else {
+                return
+            }
         },
     });
 
@@ -108,12 +121,18 @@ const BountyCard: React.FC<BountyCardProps> = ({ bounty, mutable = false }) => {
             });
         },
         onSuccess: (data) => {
-            return toast({
+            toast({
                 title: "Completed Bounty!",
                 description: `Completed Bounty: ${data.userId}, ${data.amount}`,
                 variant: "success",
                 duration: 2000,
             });
+
+            if (refetchFn) {
+                return refetchFn()
+            } else {
+                return
+            }
         },
     });
 
@@ -132,12 +151,18 @@ const BountyCard: React.FC<BountyCardProps> = ({ bounty, mutable = false }) => {
             });
         },
         onSuccess: (data) => {
-            return toast({
+            toast({
                 title: "Deleted Bounty!",
                 description: `Deleted Bounty: ${data.userId}, ${data.amount}`,
                 variant: "success",
                 duration: 2000,
             });
+
+            if (refetchFn) {
+                return refetchFn()
+            } else {
+                return
+            }
         },
     });
 
