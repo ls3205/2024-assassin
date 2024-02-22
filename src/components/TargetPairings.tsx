@@ -87,6 +87,7 @@ const TargetPairings: React.FC<TargetPairingsProps> = ({}) => {
                             targetName={target?.name}
                             status={status}
                             confirmable
+                            refetchFn={refetch}
                         />
                         {data.players[data.players.length - 1] !== player ? (
                             <Separator className="w-[225%]" />
