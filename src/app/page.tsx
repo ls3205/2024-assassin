@@ -6,7 +6,8 @@ import { buttonVariants } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
-import Safezone from "../../public/Safezone2.png";
+import Safezone from "../../public/Safezone3.png";
+import PopoutImage from "@/components/PopoutImage";
 
 export default function Home() {
     return (
@@ -22,14 +23,7 @@ export default function Home() {
                 <div className="flex h-full w-[70%] flex-col items-center p-4 md:w-1/2">
                     <h1>Current Safezone</h1>
                     <div className="flex h-full w-full flex-row items-center justify-center rounded-lg bg-primary">
-                        <Image
-                            src={Safezone}
-                            alt="Safezone"
-                            placeholder="blur"
-                            quality={100}
-                            className="rounded-lg"
-                            height={320}
-                        />
+                        <PopoutImage image={Safezone} />
                     </div>
                 </div>
             </div>
