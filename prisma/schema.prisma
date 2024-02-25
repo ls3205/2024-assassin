@@ -127,6 +127,8 @@ model Bounty {
 
     created DateTime @default(now())
 
+    confirmBy DateTime @default(dbgenerated("NOW() + interval '1 day'"))
+
     confirmed Boolean @default(false)
     completed Boolean @default(false)
 }

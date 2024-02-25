@@ -13,7 +13,7 @@ import {
     useMutation,
     useQuery,
 } from "@tanstack/react-query";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import UserAvatar from "./UserAvatar";
 import { Button } from "./ui/Button";
 import { useToast } from "./ui/use-toast";
@@ -31,6 +31,8 @@ const BountyCard: React.FC<BountyCardProps> = ({
     mutable = false,
     refetchFn,
 }) => {
+    const [timeRemaining, setTimeRemaining] = useState("...");
+
     const { toast } = useToast();
 
     const [isLoadingConfirm, setIsLoadingConfirm] = useState(false);
@@ -48,6 +50,30 @@ const BountyCard: React.FC<BountyCardProps> = ({
         });
     };
 
+    const getTimeString = (date: Date) => {
+        const timeLeftms = date.getTime() - new Date().getTime();
+
+        if (timeLeftms < 0) {
+            return "00:00:00";
+        }
+
+        const totalSeconds = Math.floor(timeLeftms / 1000);
+        const totalMinutes = Math.floor(totalSeconds / 60);
+        const totalHours = Math.floor(totalMinutes / 60);
+        const remSeconds =
+            totalSeconds % 60 < 10
+                ? `0${totalSeconds % 60}`
+                : totalSeconds % 60;
+        const remMinutes =
+            totalMinutes % 60 < 10
+                ? `0${totalMinutes % 60}`
+                : totalMinutes % 60;
+        const remHours =
+            totalHours % 24 < 10 ? `0${totalHours % 24}` : totalHours % 24;
+
+        return `${remHours}:${remMinutes}:${remSeconds}`;
+    };
+
     const { isLoading, error, data } = useQuery({
         queryKey: [`BountyCardDataGet${bounty.id}`],
         queryFn: async () => {
@@ -55,6 +81,17 @@ const BountyCard: React.FC<BountyCardProps> = ({
             return data;
         },
     });
+
+    useEffect(() => {
+        if (data) {
+            const timer = setInterval(() => {
+                setTimeRemaining(getTimeString(bounty.confirmBy));
+            }, 1000);
+            return () => {
+                clearInterval(timer);
+            };
+        }
+    }, [data]);
 
     const { mutate: ConfirmBountyMutation } = useMutation({
         mutationKey: [`BountyCardConfirmBounty${bounty.id}`],
@@ -102,8 +139,8 @@ const BountyCard: React.FC<BountyCardProps> = ({
         },
         onSuccess: (data) => {
             toast({
-                title: "UnConfirmed Bounty!",
-                description: `UnConfirmed Bounty: ${data.userId}, ${data.amount}`,
+                title: "Unconfirmed Bounty!",
+                description: `Unconfirmed Bounty: ${data.userId}, ${data.amount}`,
                 variant: "success",
                 duration: 2000,
             });
@@ -194,7 +231,7 @@ const BountyCard: React.FC<BountyCardProps> = ({
     }
 
     return (
-        <div className="m-4 flex min-h-80 w-60 flex-col items-center justify-center rounded-lg bg-background p-4">
+        <div className="min-h-80 m-4 flex w-60 flex-col items-center justify-center rounded-lg bg-background p-4">
             <h1 className="max-w-full overflow-hidden text-ellipsis whitespace-nowrap text-2xl font-bold">
                 {data.name}
             </h1>
@@ -261,8 +298,14 @@ const BountyCard: React.FC<BountyCardProps> = ({
                         </Button>
                     </div>
                 </div>
-            ) : (
+            ) : bounty.confirmed ? (
                 ""
+            ) : (
+                <div className="flex w-full flex-col justify-center align-middle">
+                    <h2 className="m-4 text-center text-2xl font-semibold">
+                        {timeRemaining}
+                    </h2>
+                </div>
             )}
         </div>
     );
