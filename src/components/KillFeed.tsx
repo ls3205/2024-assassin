@@ -48,7 +48,7 @@ const KillFeed: React.FC<KillFeedProps> = ({
     }
 
     return (
-        <div className="relative m-4 flex flex-col items-center rounded-lg bg-secondary p-4 md:h-[800px] md:w-1/2 md:overflow-y-auto">
+        <div className="relative m-4 flex flex-col items-center rounded-lg bg-secondary p-4 lg:h-[800px] lg:w-1/2 overflow-x-hidden lg:overflow-y-auto">
             {noTitle ? "" : <h1 className="text-2xl font-bold">Killfeed</h1>}
             {data?.length === 0 ? (
                 <div className="flex h-48 flex-col items-center justify-center">
