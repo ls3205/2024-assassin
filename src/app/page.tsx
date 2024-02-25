@@ -11,7 +11,7 @@ import Safezone from "../../public/Safezone2.png";
 export default function Home() {
     return (
         <main className="flex min-h-screen flex-col items-center">
-            <Navbar />
+            {/* <Navbar /> */}
             <div className="m-4 flex w-[95%] flex-col items-center justify-center rounded-lg bg-secondary md:h-96 md:w-[70%] md:flex-row">
                 <div className="flex h-full w-[70%] flex-col items-center p-4 md:w-1/2">
                     <CountdownClock

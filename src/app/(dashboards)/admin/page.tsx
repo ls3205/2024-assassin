@@ -14,7 +14,7 @@ const page: React.FC<pageProps> = async ({}) => {
         redirect("/")
     ) : (
         <main className="flex min-h-screen flex-col items-center">
-            <Navbar />
+            {/* <Navbar /> */}
             <div className="m-4 flex min-h-[300px] w-[95%] flex-col rounded-lg bg-secondary p-4 md:w-[70%] lg:flex-row">
                 <div className="m-2 h-full w-full rounded-lg bg-background p-2 lg:w-1/2">
                     <h1 className="my-2 mb-0 w-full text-center text-2xl font-semibold">

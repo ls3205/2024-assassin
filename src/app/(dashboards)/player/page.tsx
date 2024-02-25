@@ -12,7 +12,7 @@ const page: React.FC<pageProps> = async ({}) => {
 
     return session && session.user && session.user.id ? (
         <main className="flex min-h-screen flex-col items-center">
-            <Navbar />
+            {/* <Navbar /> */}
             <PlayerDashboardCard session={session} />
         </main>
     ) : (

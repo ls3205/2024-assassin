@@ -11,7 +11,7 @@ const page: React.FC<pageProps> = async ({}) => {
 
     return (
         <main className="flex min-h-screen flex-col items-center">
-            <Navbar />
+            {/* <Navbar /> */}
             <div className="my-4 flex w-[95%] flex-col justify-center rounded-lg bg-yellow-300 p-4 align-middle text-black md:w-[60%]">
                 <h1 className="flex w-full flex-row justify-center text-center text-2xl font-bold">
                     <AlertCircleIcon className="mr-4" />
