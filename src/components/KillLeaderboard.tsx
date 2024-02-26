@@ -25,7 +25,7 @@ const KillLeaderboard: React.FC<KillLeaderboardProps> = ({}) => {
     }
 
     return (
-        <div className="relative m-4 flex flex-col items-center rounded-lg bg-secondary p-4 md:h-[800px] md:w-1/2 md:overflow-y-auto">
+        <div className="relative m-4 flex flex-col items-center rounded-lg bg-secondary p-4 lg:h-[800px] lg:w-1/2 lg:overflow-y-auto">
             <h1 className="text-2xl font-bold">Kill Leaderboard</h1>
             <ul className="w-full p-4">
                 {data?.map((head, key) => {

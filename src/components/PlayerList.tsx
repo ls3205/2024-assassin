@@ -53,39 +53,46 @@ const PlayerList: React.FC<PlayerListProps> = ({
                     <h1 className="text-destructive">没有heads</h1>
                 </div>
             ) : (
-                <ul className="flex flex-row flex-wrap items-center justify-center">
-                    {data.map((player, index) => {
-                        return (
-                            <li
-                                className={cn(
-                                    "flex basis-[100%] flex-col items-center justify-center p-2 text-center text-lg sm:basis-1/2 md:basis-1/3 lg:basis-1/2",
-                                    player.status === "ALIVE"
-                                        ? "text-green-500"
-                                        : "text-destructive line-through",
-                                    className,
-                                )}
-                            >
-                                {type === "LINK" ? (
-                                    <Link
-                                        className={cn(
-                                            buttonVariants({ variant: "link" }),
-                                            player.status === "ALIVE"
-                                                ? "text-green-500"
-                                                : "text-destructive line-through",
-                                        )}
-                                        href={`/players/${player.id}`}
-                                    >
-                                        {player.name}
-                                    </Link>
-                                ) : (
-                                    <h1>{player.name}</h1>
-                                )}
+                <div className="m-4 w-full rounded-lg bg-secondary">
+                    <h1 className="my-2 w-full text-center text-2xl font-semibold">
+                        {`Players (${data.filter((player) => player.status === "ALIVE").length} Remaining)`}
+                    </h1>
+                    <ul className="flex flex-row flex-wrap items-center justify-center">
+                        {data.map((player, index) => {
+                            return (
+                                <li
+                                    className={cn(
+                                        "flex basis-[100%] flex-col items-center justify-center p-2 text-center text-lg sm:basis-1/2 md:basis-1/3 lg:basis-1/2",
+                                        player.status === "ALIVE"
+                                            ? "text-green-500"
+                                            : "text-destructive line-through",
+                                        className,
+                                    )}
+                                >
+                                    {type === "LINK" ? (
+                                        <Link
+                                            className={cn(
+                                                buttonVariants({
+                                                    variant: "link",
+                                                }),
+                                                player.status === "ALIVE"
+                                                    ? "text-green-500"
+                                                    : "text-destructive line-through",
+                                            )}
+                                            href={`/players/${player.id}`}
+                                        >
+                                            {player.name}
+                                        </Link>
+                                    ) : (
+                                        <h1>{player.name}</h1>
+                                    )}
 
-                                <Separator className="mt-1 w-[70%] bg-background opacity-30" />
-                            </li>
-                        );
-                    })}
-                </ul>
+                                    <Separator className="mt-1 w-[70%] bg-background opacity-30" />
+                                </li>
+                            );
+                        })}
+                    </ul>
+                </div>
             )}
         </>
     );

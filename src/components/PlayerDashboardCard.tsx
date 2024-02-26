@@ -8,6 +8,7 @@ import { AlertCircle, Loader2, User } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { PlayerDashboardCardGet } from "@/app/actions";
 import UserInfoCard from "./UserInfoCard";
+import BountyList from "./BountyList";
 
 interface PlayerDashboardCardProps {
     session?: Session | null;
@@ -56,22 +57,40 @@ const PlayerDashboardCard: React.FC<PlayerDashboardCardProps> = ({
                         <h1 className="text-4xl font-bold">
                             {data.dbPlayer.name}
                         </h1>
-                        <div className="flex flex-col justify-center rounded-lg bg-background p-4 mt-4 lg:mr-4 w-auto">
+                        <div className="mt-4 flex w-auto flex-col justify-center rounded-lg bg-background p-4 lg:mr-4">
                             <h1 className="text-4xl font-bold">
                                 {session.user.status === "ALIVE"
                                     ? "Target"
                                     : "Killed By"}
                             </h1>
                             {session.user.status === "ALIVE" ? (
-                                <UserInfoCard
-                                    user={data.dbTarget ? data.dbTarget : undefined}
-                                />
+                                <>
+                                    <UserInfoCard
+                                        user={
+                                            data.dbTarget
+                                                ? data.dbTarget
+                                                : undefined
+                                        }
+                                    />
+                                </>
                             ) : (
                                 <UserInfoCard
-                                    user={data.dbKiller ? data.dbKiller : undefined}
+                                    user={
+                                        data.dbKiller
+                                            ? data.dbKiller
+                                            : undefined
+                                    }
                                 />
                             )}
                         </div>
+                        {session.user.status === "ALIVE" ? (
+                            <BountyList
+                                playerId={session.user.id}
+                                className="w-auto border-2 border-background bg-background/80 p-0 lg:mx-0 lg:mr-4 lg:mt-4"
+                            />
+                        ) : (
+                            ""
+                        )}
                     </div>
                     <div className="h-full lg:w-1/2">
                         <PlayerKillFeed playerID={session.user.id} />

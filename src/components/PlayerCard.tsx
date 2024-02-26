@@ -6,6 +6,7 @@ import { AlertCircle, Loader2 } from "lucide-react";
 import { Session } from "next-auth";
 import React from "react";
 import PlayerKillFeed from "./PlayerKillFeed";
+import BountyList from "./BountyList";
 
 interface PlayerCardProps {
     playerID: string;
@@ -16,8 +17,19 @@ const PlayerCard: React.FC<PlayerCardProps> = ({ playerID, session }) => {
     const { isLoading, error, data } = useQuery({
         queryKey: ["PlayerCard"],
         queryFn: async () => {
-            const { data } = await axios.get(`/api/players?player=${playerID}`);
-            return data as Player;
+            const playerData = await axios.get(
+                `/api/players?player=${playerID}`,
+            );
+            const killerData = await axios.get(
+                `/api/players?player=${playerData.data.killedBy}`,
+            );
+
+            const data = {
+                playerData: playerData.data as Player,
+                killerData: killerData.data as Player,
+            };
+
+            return data;
         },
     });
 
@@ -45,15 +57,23 @@ const PlayerCard: React.FC<PlayerCardProps> = ({ playerID, session }) => {
             {data ? (
                 <div className="m-4 flex h-[88vh] w-[95%] flex-col justify-center rounded-lg bg-secondary p-4 md:w-[70%] lg:flex-row lg:items-center">
                     <div className="flex h-full flex-col justify-center lg:w-1/2">
-                        <h1 className="text-4xl font-bold">{data?.name}</h1>
+                        <h1 className="text-4xl font-bold">
+                            {data.playerData.name}
+                        </h1>
                         <h2 className="text-2xl font-semibold">
-                            {data.status === "ALIVE" ? "Alive" : "Dead"}
+                            {data.playerData.status === "ALIVE"
+                                ? "Alive"
+                                : "Dead"}
                         </h2>
-                        {data.status === "DEAD" && (
+                        {data.playerData.status === "DEAD" && (
                             <h2 className="text-xl font-medium">
-                                Eliminated By: {}
+                                Eliminated By: {data.killerData.name}
                             </h2>
                         )}
+                        <BountyList
+                            playerId={data.playerData.id}
+                            className="border-2 border-background bg-background/80 p-0 lg:mt-4 lg:w-[95%]"
+                        />
                     </div>
                     <div className="h-full lg:w-1/2">
                         <PlayerKillFeed playerID={playerID} />

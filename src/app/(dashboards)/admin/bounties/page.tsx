@@ -13,7 +13,7 @@ const page: React.FC<pageProps> = async ({}) => {
         redirect("/")
     ) : (
         <main className="flex min-h-screen flex-col items-center">
-            <Navbar />
+            {/* <Navbar /> */}
             <BountyList mutable className="w-[95%] lg:my-4 lg:w-[70%]" />
         </main>
     );

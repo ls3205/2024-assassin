@@ -232,11 +232,11 @@ export const PlayerManagerKillPlayer = async (player: User) => {
     }
 }
 
-export const GetBounty = async (player?: User) => {
-    if (player) {
+export const GetBounty = async (playerId?: string) => {
+    if (playerId) {
         const dbBounties = db.bounty.findMany({
             where: {
-                userId: player.id
+                userId: playerId
             }
         })
 

@@ -10,16 +10,18 @@ import { cn } from "@/lib/utils";
 interface BountyListProps {
     mutable?: boolean;
     className?: string;
+    playerId?: string;
 }
 
 const BountyList: React.FC<BountyListProps> = ({
     mutable = false,
     className,
+    playerId
 }) => {
     const { isLoading, error, data, refetch } = useQuery({
         queryKey: ["BountyListDataGet"],
         queryFn: async () => {
-            const data = await GetBounty();
+            const data = await GetBounty(playerId ? playerId : undefined);
             return data;
         },
     });

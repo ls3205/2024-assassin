@@ -195,9 +195,9 @@ const TargetPairingsForm: React.FC<TargetPairingsFormProps> = ({}) => {
 
         data?.players.map((player) => {
             if (!picked.includes(player.id)) {
-                console.log(player.name)
+                console.log(player.name);
             }
-        })
+        });
     };
 
     const validate = () => {
@@ -417,7 +417,7 @@ const TargetPairingsForm: React.FC<TargetPairingsFormProps> = ({}) => {
                 })}
             </table>
             <div className="flex w-full flex-row items-center justify-end space-x-4">
-            <Button
+                <Button
                     onClick={() => {
                         validate();
                     }}
