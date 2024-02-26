@@ -6,6 +6,7 @@ import { AlertCircle, Loader2 } from "lucide-react";
 import { Session } from "next-auth";
 import React from "react";
 import PlayerKillFeed from "./PlayerKillFeed";
+import BountyList from "./BountyList";
 
 interface PlayerCardProps {
     playerID: string;
@@ -49,6 +50,10 @@ const PlayerCard: React.FC<PlayerCardProps> = ({ playerID, session }) => {
                         <h2 className="text-2xl font-semibold">
                             {data.status === "ALIVE" ? "Alive" : "Dead"}
                         </h2>
+                        <BountyList
+                            playerId={data.id}
+                            className="border-2 border-background bg-background/80 p-0 lg:mt-4 lg:w-[95%]"
+                        />
                         {data.status === "DEAD" && (
                             <h2 className="text-xl font-medium">
                                 Eliminated By: {}
