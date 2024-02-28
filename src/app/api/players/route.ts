@@ -51,10 +51,14 @@ export async function GET(req: NextRequest) {
             return NextResponse.json(players, { status: 200 })
         }
 
+        if (reqPlayerID === 'null') {
+            return NextResponse.json(`Null user`, { status: 200 })
+        }
+
         const dbPlayer = await db.user.findFirst({
             where: {
                 id: reqPlayerID,
-                role: "PLAYER"
+                role: reqPlayerID === '0' ? "ADMIN" : "PLAYER"
             }
         })
 
