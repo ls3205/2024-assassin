@@ -218,7 +218,7 @@ export const PlayerManagerKillPlayer = async (player: User) => {
     const createdKill = await db.kill.create({
         data: {
             userId: "0",
-            userName: "System",
+            userName: "Admin",
             targetId: player.id,
             targetName: player.name
         }
