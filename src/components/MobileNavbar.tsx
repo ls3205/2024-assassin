@@ -17,7 +17,7 @@ interface MobileNavbarProps {
 const MobileNavbar: React.FC<MobileNavbarProps> = ({ session }) => {
     return (
         <Sheet>
-            <SheetTrigger className="relative my-2 flex h-auto w-[95%] flex-row items-center justify-center rounded-md bg-secondary md:hidden">
+            <SheetTrigger className="relative my-2 flex h-auto ml-[2.5%] w-[95%] flex-row items-center justify-center rounded-md bg-secondary md:hidden">
                 <AlignJustifyIcon className="absolute left-[2.5%]" />
                 <div className="h-8 w-1/2 rounded-md bg-secondary"></div>
             </SheetTrigger>
