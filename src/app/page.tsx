@@ -6,7 +6,7 @@ import { buttonVariants } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
-import Safezone from "../../public/Safezone3.png";
+import Safezone from "../../public/Safezone4.png";
 import PopoutImage from "@/components/PopoutImage";
 
 export default function Home() {
