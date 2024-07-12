@@ -8,11 +8,19 @@ import Image from "next/image";
 import Link from "next/link";
 import Safezone from "../../public/Safezone4.png";
 import PopoutImage from "@/components/PopoutImage";
+import { AlertCircle } from "lucide-react";
 
 export default function Home() {
     return (
         <main className="flex min-h-screen flex-col items-center">
             {/* <Navbar /> */}
+            <div className="flex w-[70%] flex-row rounded-lg bg-yellow-500 p-4 mt-4">
+                <AlertCircle className="mr-4" />
+                <h1>
+                    Attention: As of 6/13/24, the game has ended. Thank you all
+                    for playing.
+                </h1>
+            </div>
             <div className="m-4 flex w-[95%] flex-col items-center justify-center rounded-lg bg-secondary md:h-96 md:w-[70%] md:flex-row">
                 <div className="flex h-full w-[70%] flex-col items-center p-4 md:w-1/2">
                     <CountdownClock

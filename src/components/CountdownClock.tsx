@@ -99,10 +99,12 @@ const CountdownClock: React.FC<CountdownClockProps> = ({
         <div className={cn(className, "rounded-lg p-4")}>
             {title ? <h1 className="m-4 text-4xl font-bold">{title}</h1> : ""}
             <h2 className="m-4 text-2xl font-semibold">
-                New Targets In: {timeLeft?.targets}
+                {/* New Targets In: {timeLeft?.targets} */}
+                New Safezone In: N/A
             </h2>
             <h2 className="m-4 text-2xl font-semibold">
-                New Safezone In: {timeLeft?.safezone}
+                {/* New Safezone In: {timeLeft?.safezone} */}
+                New Safezone In: N/A 
             </h2>
         </div>
     );
